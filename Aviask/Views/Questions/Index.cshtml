@@ -1,0 +1,128 @@
+﻿@model IEnumerable<Aviask.Models.Question>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<main class="page-container">
+    <h1>List of questions</h1>
+
+    <section class="top-main">
+        @if (User.IsInRole("admin") || User.IsInRole("manager"))
+        {
+            <a role="button" class="button button-primary" asp-action="Create">
+                <i class="fa fa-plus"></i>
+                Create a question
+            </a>
+        }
+
+        <form id="filter-container" action="@Url.Action("Index", "Questions")" method="get" class="form-inline">
+            <label for="category" class="sr-only">Category</label>
+            <select id="category" name="category" class="form-control" required>
+                <option disabled selected>No category</option>
+                @foreach (var cat in Enum.GetValues(typeof(MainCategoryType)))
+                {
+                    <option value="@cat.ToString()">@cat.ToString()</option>
+                }
+            </select>
+        
+            <label for="subcategory" class="sr-only">Sub-category</label>
+            <select id="subcategory" name="subcategory" class="form-control" required>
+                <option disabled selected>No sub-category</option>
+                @foreach (var cat in Enum.GetValues(typeof(SubCategoriesType)))
+                {
+                    <option value="@cat.ToString()">@cat.ToString()</option>
+                }
+            </select>
+
+            <button type="submit" class="button button-primary mb-2">Search</button>
+        </form>
+    </section>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SubCategory)
+                </th>
+                @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.Visibility)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuestionAnswers.CorrectAnswer)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuestionAnswers.Explications)
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubCategory)
+                    </td>
+                    @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Visibility)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QuestionAnswers.CorrectAnswer)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QuestionAnswers.Explications)
+                        </td>
+                    }
+                    <td style="display: flex; gap: 0.4em; align-items: baseline;">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="button button-primary">
+                            Answer
+                        </a>
+                        @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="button button-secondary">
+                                <i class="fa fa-edit"></i>
+                                Edit
+                            </a>
+                        }
+                        @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="button button-important">
+                                <i class="fa fa-duotone fa-trash"></i>
+                                Delete
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>

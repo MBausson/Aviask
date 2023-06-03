@@ -1,0 +1,98 @@
+﻿@model Aviask.Models.Question
+
+@{
+    ViewData["Title"] = "Question " + Model.Title;
+}
+
+<div class="details-container">
+
+    <div>
+        <h1>Question #@Model.Id : <span class="text-decoration-underline">@Model.Title</span></h1>
+        <hr />
+        <a asp-action="Index" asp-controller="Questions" 
+            asp-route-category="@Model.Category" 
+            asp-route-subcategory="@Model.SubCategory"
+           class="link-dark">Category : @Model.Category - @Model.SubCategory</a>
+        <h3 class="text-center">@Model.Description</h3>
+
+        <br />
+    
+        <div class="answer-container">
+            <button class="qst-answer">
+                @Model.QuestionAnswers.Answer1
+                <span class="qst-explication"></span>
+            </button>
+            <button class="qst-answer">
+                @Model.QuestionAnswers.Answer2
+                <span class="qst-explication"></span>
+            </button>
+            @if (Model.QuestionAnswers.NumberOfAnswers >= 3)
+            {
+                <button class="qst-answer">
+                    @Model.QuestionAnswers.Answer3
+                    <span class="qst-explication"></span>
+                </button>
+            }
+            @if (Model.QuestionAnswers.NumberOfAnswers >= 4)
+            {
+                <button class="qst-answer">
+                    @Model.QuestionAnswers.Answer4
+                    <span class="qst-explication"></span>
+                </button>
+            }
+        </div>
+    
+    </div>
+
+    <div class="question-actions">
+        <a asp-action="Index" role="button" class="button button-primary">
+            <i class="fa fa-home"></i>
+            List of questions
+         </a>
+        <a asp-action="NextDetails" asp-route-id="@Model.Id" role="button" class="button button-primary">
+            <i class="fa fa-arrow-right"></i>
+            Next
+        </a>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script>
+        let answers = document.getElementsByClassName("qst-answer");
+        let answered = false;
+
+        for (let i = 0; i < answers.length; i++){
+            answers[i].addEventListener('click', async function() {
+                if (answered) return;
+
+                let selectedAnswer = answers[i].textContent.trim();
+
+                //  Put auth token in header
+                let response = await fetch(`${window.location.origin}/Questions/CheckAnswer?Id=@Model.Id&check=${selectedAnswer}`, {
+                    method: 'GET',
+                    headers: {},
+                    mode: 'cors',
+                    cache: 'default'
+                });
+
+                if (!response.ok) return;
+
+                let content = await response.json();
+                
+                if (content.isCorrect){
+                    answers[i].style.animation = "CorrectAnimation 0.35s forwards";
+                } else {
+                    answers[i].style.animation = "WrongAnimation 0.35s forwards";
+                }
+
+                answers[i].style.color = "#e6e6e6";
+                answers[i].children[0].textContent = content.explication;
+
+                answered = true;
+            });
+        }
+       
+    </script>
+}

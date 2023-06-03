@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<UserViewModel>
+
+@{
+    ViewData["Title"] = "User managment";
+}
+
+<main class="page-container">
+    <h1>List of registered users</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.User.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.User.Email)
+                </th>
+                <th>
+                    Roles
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => user.User.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => user.User.Email)
+                    </td>
+                    <td>
+                        @{
+                            <ul>
+                                @foreach (var role in user.Roles)
+                                {
+                                    <li>@role</li>
+                                }
+                            </ul>
+                        }
+                    </td>
+                    <td>
+                        <form asp-action="DeleteUser" asp-route-userid="@user.User.Id">
+                            <button class="button button-important">
+                                <i class="fa fa-trash"></i>
+                                Delete user
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>

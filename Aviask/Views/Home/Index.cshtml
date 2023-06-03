@@ -1,0 +1,72 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    @if (!SignInManager.IsSignedIn(User))
+    {
+        <div class="page-container">
+            <header class="text-center">
+                <h1 class="display-4">Welcome to Aviask</h1>
+                <h4>Number of questions available : @ViewData["QuestionCount"]</h4>
+            </header>
+
+            <hr/>
+            <br />
+
+            <section class="text-center">
+                <h5>Register and start browsing questions of various themes around aviation !</h5>
+
+                <p>TODO: permettre à l'utilisateur de faire une série de questions gratuitement</p>
+
+                <a role="button" class="btn btn-primary" id="register"
+               asp-area="Identity" asp-page="/Account/Register">Register</a>
+                <a role="button" class="btn btn-primary" id="login"
+               asp-area="Identity" asp-page="/Account/Login">Sign in</a>
+            </section>
+        </div>
+    } else
+    {
+        <div class="page-container">
+            <header class="text-center">
+                <h1 class="display-4">Your dashboard</h1>
+                <hr />
+                <a asp-controller="Questions" class="button button-primary" asp-action="Index">Browse questions</a>
+            </header>
+
+            <br/>
+                
+            <div class="cards-container">
+                <section class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Your activity</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Your recent activity on Aviask</h6>
+                        <p class="card-text">TODO: afficher le nombre de question répondues dans la semaine</p>
+                        <p class="card-text">TODO: afficher le ratio de question bonnes / mauvaises lifetime</p>
+                        <a class="card-link" asp-controller="Questions" asp-action="Index">Browse some questions</a>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Favorite themes</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Your best themes of question</h6>
+                        <p class="card-text">TODO: afficher au plus les 3 meilleurs thèmes de l'utilisateur.</p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Autre carte</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Trouver une autre carte</h6>
+                        <p class="card-text">Trouver une 3e carte à mettre blablablablablablalbla</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+       
+    }
+</div>
