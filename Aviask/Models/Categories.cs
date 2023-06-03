@@ -2,7 +2,8 @@
 {
     public enum MainCategoryType
     {
-        BIA
+        BIA,
+        ATPL,
     }
 
     public enum SubCategoriesType
