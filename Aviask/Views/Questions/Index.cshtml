@@ -102,7 +102,7 @@
                             @Html.DisplayFor(modelItem => item.QuestionAnswers.Explications)
                         </td>
                     }
-                    <td style="display: flex; gap: 0.4em; align-items: baseline;">
+                    <td style="display: flex; gap: 0.4em; align-items: baseline; flex-direction: row-reverse;">
                         <a asp-action="Details" asp-route-id="@item.Id" class="button button-primary">
                             Answer
                         </a>

@@ -1,8 +1,10 @@
 ﻿using Aviask.Data;
 using Aviask.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -12,10 +14,12 @@ namespace Aviask.Controllers
     public class QuestionsController : Controller
     {
         private readonly AviaskContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public QuestionsController(AviaskContext context)
+        public QuestionsController(AviaskContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Questions
@@ -96,19 +100,39 @@ namespace Aviask.Controllers
 
             if (check == null) return BadRequest();
 
+            //  Retrieves the question based on given ID
             var question = await _context.Question.Include(q => q.QuestionAnswers).FirstOrDefaultAsync(m => m.Id == id);
 
             if (question == null) return NotFound();
 
+            //  Redirect to register if the question isn't available to non-signed in users
             if (question.Visibility != Visibility.Free && !User.Identity.IsAuthenticated)
             {
                 return RedirectToPage("/Identity/Account/Register");
             }
 
+            bool correctAnswer = question.QuestionAnswers.CorrectAnswer == check;
+            
+            //  If the user is logged in, update its statistics
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = _userManager.GetUserId(HttpContext.User);
+                var userInformations = await _context.UserInformations.Where(u => u.UserId == userId).FirstOrDefaultAsync();
+
+                if (correctAnswer)
+                {
+                    userInformations.QuestionAnsweredCorrectly += 1;
+                }
+
+                userInformations.QuestionAnswered += 1;
+
+                await _context.SaveChangesAsync();
+            }
+
             return Ok(new
             {
                 Id = id,
-                IsCorrect = question.QuestionAnswers.CorrectAnswer == check,
+                IsCorrect = correctAnswer,
                 CorrectAnswer = question.QuestionAnswers.CorrectAnswer,
                 Explication = question.QuestionAnswers.Explications
             });
