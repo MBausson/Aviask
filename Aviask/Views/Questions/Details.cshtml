@@ -60,6 +60,7 @@
 
 @section Scripts {
     <script>
+
         let answers = document.getElementsByClassName("qst-answer");
         let answered = false;
 
@@ -69,13 +70,7 @@
 
                 let selectedAnswer = answers[i].textContent.trim();
 
-                //  Put auth token in header
-                let response = await fetch(`${window.location.origin}/Questions/CheckAnswer?Id=@Model.Id&check=${selectedAnswer}`, {
-                    method: 'GET',
-                    headers: {},
-                    mode: 'cors',
-                    cache: 'default'
-                });
+                let response = await fetch(`/Questions/CheckAnswer?Id=@Model.Id&check=${selectedAnswer}`);
 
                 if (!response.ok) return;
 

@@ -105,18 +105,16 @@
                     <td style="display: flex; gap: 0.4em; align-items: baseline; flex-direction: row-reverse;">
                         <a asp-action="Details" asp-route-id="@item.Id" class="button button-primary">
                             Answer
-                        </a>
+                        </a> 
                         @if (User.IsInRole("admin") || User.IsInRole("manager"))
                         {
                             <a asp-action="Edit" asp-route-id="@item.Id" class="button button-secondary">
-                                <i class="fa fa-edit"></i>
                                 Edit
                             </a>
                         }
                         @if (User.IsInRole("admin") || User.IsInRole("manager"))
                         {
                             <a asp-action="Delete" asp-route-id="@item.Id" class="button button-important">
-                                <i class="fa fa-duotone fa-trash"></i>
                                 Delete
                             </a>
                         }

@@ -105,26 +105,26 @@ namespace Aviask.Controllers
 
             if (question == null) return NotFound();
 
-            //  Redirect to register if the question isn't available to non-signed in users
+            //  Redirect to register if the question isn't available to non-signed in users 
             if (question.Visibility != Visibility.Free && !User.Identity.IsAuthenticated)
             {
                 return RedirectToPage("/Identity/Account/Register");
             }
 
             bool correctAnswer = question.QuestionAnswers.CorrectAnswer == check;
-            
-            //  If the user is logged in, update its statistics
+
+            //  If the user is logged in, add an answer record
             if (User.Identity.IsAuthenticated)
             {
                 var userId = _userManager.GetUserId(HttpContext.User);
-                var userInformations = await _context.UserInformations.Where(u => u.UserId == userId).FirstOrDefaultAsync();
 
-                if (correctAnswer)
+                _context.AnswerRecords.Add(new AnswerRecords
                 {
-                    userInformations.QuestionAnsweredCorrectly += 1;
-                }
-
-                userInformations.QuestionAnswered += 1;
+                    UserId = userId,
+                    QuestionId = question.Id,
+                    Answered = check,
+                    CorrectAnswer = correctAnswer
+                });
 
                 await _context.SaveChangesAsync();
             }

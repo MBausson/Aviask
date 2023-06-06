@@ -123,6 +123,8 @@ body {
     line-height: 1.5;
     cursor: pointer;
     /*box-shadow: 0 2px 3em rgba(0, 0, 0, 0.4);*/
+    vertical-align: middle;
+    text-align: center;
 }
 
 a.button {
@@ -201,4 +203,10 @@ a.button:hover {
     justify-content: space-around;
     flex-wrap: wrap;
     gap: 3em;
+}
+
+/*  List item of favourite theme */
+.fav-theme-container {
+    display: flex;
+    justify-content: space-between;
 }

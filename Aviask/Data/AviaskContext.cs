@@ -14,7 +14,7 @@ namespace Aviask.Data
 
         public DbSet<Question> Question { get; set; } = default!;
         public DbSet<QuestionAnswers> QuestionAnswers { get; set; } = default!;
-        public DbSet<UserInformations> UserInformations { get; set; }
+        public DbSet<AnswerRecords> AnswerRecords { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,9 @@ namespace Aviask.Data
 
             modelBuilder.Entity<Question>().ToTable("Question");
             modelBuilder.Entity<QuestionAnswers>().ToTable("QuestionAnswers");
-            modelBuilder.Entity<UserInformations>().ToTable("UserInformations");
+            modelBuilder.Entity<AnswerRecords>().ToTable("AnswerRecords")
+                .Property(e => e.Date)
+                .HasDefaultValueSql("GETDATE()");
         }
     }
 }

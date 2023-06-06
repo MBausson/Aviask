@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aviask.Migrations
 {
     [DbContext(typeof(AviaskContext))]
-    [Migration("20230605084456_UserInformations")]
-    partial class UserInformations
+    [Migration("20230605192811_AnswerRecords")]
+    partial class AnswerRecords
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,38 @@ namespace Aviask.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Aviask.Models.AnswerRecords", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Answered")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CorrectAnswer")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("AnswerRecords", (string)null);
+                });
 
             modelBuilder.Entity("Aviask.Models.Question", b =>
                 {
@@ -96,31 +128,6 @@ namespace Aviask.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("QuestionAnswers", (string)null);
-                });
-
-            modelBuilder.Entity("Aviask.Models.UserInformations", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("QuestionAnswered")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionAnsweredCorrectly")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserInformations", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -321,6 +328,17 @@ namespace Aviask.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Aviask.Models.AnswerRecords", b =>
+                {
+                    b.HasOne("Aviask.Models.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("Aviask.Models.Question", b =>
                 {
                     b.HasOne("Aviask.Models.QuestionAnswers", "QuestionAnswers")
@@ -330,17 +348,6 @@ namespace Aviask.Migrations
                         .IsRequired();
 
                     b.Navigation("QuestionAnswers");
-                });
-
-            modelBuilder.Entity("Aviask.Models.UserInformations", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
