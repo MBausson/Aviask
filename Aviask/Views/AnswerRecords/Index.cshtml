@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Aviask.Models.AnswerRecords>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<main class="page-container">
+    <h1>Your answers</h1>
+
+    <hr />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.QuestionId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Question)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Answered)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CorrectAnswer)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                string bgColor = item.CorrectAnswer ? "rgba(0, 255, 0, 0.15)" : "rgba(255, 0, 0, 0.15)";
+
+                <tr style="background-color: @bgColor;">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QuestionId)
+                        @*<a asp-controller="Questions" asp-action="Details" asp-route-id="@item.QuestionId">@item.QuestionId</a>*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Question.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Answered)
+                    </td>
+                    <td>
+                        @{
+                            if (item.CorrectAnswer)
+                            {
+                                <span>Yes</span>
+                            }
+                            else
+                            {
+                                <span>No</span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        <a role="button" asp-controller="Questions" asp-action="Details" asp-route-id="@item.QuestionId">Question</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>
+

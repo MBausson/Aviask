@@ -36,6 +36,7 @@
             const lifetimeRatioElement = document.getElementById("lifetime-ratio")
             const favoriteThemesListElement = document.getElementById("list-favourite-themes")
             const mostCorrectThemeElement = document.getElementById("most-correct-theme")
+            const favoriteThemeEmojis = ['🔥', '🥈', '🥉']
 
             const now = new Date().getTime();
             const week_millis = 7 * 24 * 60 * 60 * 1000;
@@ -55,7 +56,8 @@
             function updateUi(stats){
                 weekCountElement.innerHTML = `You answered <b>${stats.lastWeekRecordsCount}</b> question(s) the <u>last 7 days</u>.`
                 lifetimeRatioElement.innerHTML = `Lifetime answer correctness : <b>${stats.ratioCorrectness * 100}%</b> [<span style="color:green">${stats.correctLifetime}</span> / <span style="color:red">${stats.failLifetime}</span>]`
-                mostCorrectThemeElement.innerHTML = `Theme with most correct answers : <u>${stats.mostCorrectlyTheme.subCategoryName}</u> (<b>${stats.mostCorrectlyTheme.correctAnswerCount}</b> correct answers)`
+                mostCorrectThemeElement.innerHTML = `Category with most correct answers : <u>${stats.mostCorrectlyTheme.subCategoryName}</u> (<b>${stats.mostCorrectlyTheme.correctAnswerCount}</b> correct answers)`
+                let favoriteThemeIndex = 0
 
                 stats.favoriteThemes.forEach((theme) => {
                     let newListItem = document.createElement("li")
@@ -67,18 +69,16 @@
                     aCategoryName.href = `/Questions?subcategory=${theme.subCategoryName}`
 
                     let spanAnswerCount = document.createElement("span")
-                    spanAnswerCount.textContent = theme.answerCount;
+                    spanAnswerCount.textContent = favoriteThemeEmojis[favoriteThemeIndex] + theme.answerCount;
                     spanAnswerCount.style.fontWeight = "bold";
 
                     newListItem.appendChild(aCategoryName)
                     newListItem.appendChild(spanAnswerCount)
 
                     favoriteThemesListElement.appendChild(newListItem);
+                    favoriteThemeIndex++
                 });
             }
-            
-
-
         </script>
         }
 
@@ -86,7 +86,7 @@
             <header class="text-center">
                 <h1 class="display-4">Your dashboard</h1>
                 <hr />
-                <a asp-controller="Questions" class="button button-primary" asp-action="Index">Browse questions</a>
+                <a asp-controller="Questions" class="button button-primary" asp-action="Index">Browse questions</a>               
             </header>
 
             <br/>
@@ -94,27 +94,32 @@
             <div class="cards-container">
                 <section class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Your activity</h5>
+                        <h5 class="card-title mb-2">Your activity</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Your recent activity on Aviask</h6>
                         <p class="card-text" id="week-count">TODO: afficher le nombre de question répondues dans la semaine</p>
                         <p class="card-text" id="lifetime-ratio">TODO: afficher le ratio de question bonnes / mauvaises lifetime</p>
-                        <a class="card-link" asp-controller="Questions" asp-action="Index">Browse some questions</a>
+                        
+                        <div style="display: flex; justify-content: space-between; gap: 1em;">
+                            <a  asp-controller="Questions" asp-action="Index" class="button button-primary">Browse some questions</a>
+                            <a asp-controller="AnswerRecords" asp-action="Index" class="button button-secondary">Answers history</a>
+                        </div>
                     </div>
                 </section>
 
                 <section class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Favorite themes</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">The themes you answered the most</h6>
+                        <h5 class="card-title mb-2">Favorite themes</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">The categories you answered the most</h6>
                         <ul id="list-favourite-themes" class="list-group list-group-flush"></ul>
-
+                        
+                        <br/>
                         <span id="most-correct-theme"></span>
                     </div>
                 </section>
 
                 <section class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Autre carte</h5>
+                        <h5 class="card-title mb-2">Autre carte</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Trouver une autre carte</h6>
                         <p class="card-text">Trouver une 3e carte à mettre blablablablablablalbla</p>
                     </div>

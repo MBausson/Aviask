@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Aviask.Models
@@ -13,6 +14,6 @@ namespace Aviask.Models
         public Question Question { get; set; }
 
         public string Answered { get; set; }
-        public bool CorrectAnswer { get; set; }
+        [DisplayName("Correct Answer")] public bool CorrectAnswer { get; set; }
     }
 }
