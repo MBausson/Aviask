@@ -70,7 +70,8 @@
 
                 let selectedAnswer = answers[i].textContent.trim();
 
-                let response = await fetch(`/Questions/CheckAnswer?Id=@Model.Id&check=${selectedAnswer}`);
+                let encodedAnswer = encodeURIComponent(selectedAnswer)
+                let response = await fetch(`/Questions/CheckAnswer?Id=@Model.Id&check=${encodedAnswer}`);
 
                 if (!response.ok) return;
 

@@ -111,7 +111,7 @@ namespace Aviask.Controllers
                 return RedirectToPage("/Identity/Account/Register");
             }
 
-            bool correctAnswer = question.QuestionAnswers.CorrectAnswer == check;
+            bool correctAnswer = question.QuestionAnswers.CorrectAnswer.Trim().ToLower() == check.Trim().ToLower();
 
             //  If the user is logged in, add an answer record
             if (User.Identity.IsAuthenticated)
@@ -187,7 +187,7 @@ namespace Aviask.Controllers
                 return NotFound();
             }
 
-            var question = await _context.Question.FindAsync(id);
+            var question = await _context.Question.Include(q => q.QuestionAnswers).FirstOrDefaultAsync(q => q.Id == id);
 
             if (question == null)
             {
@@ -203,7 +203,7 @@ namespace Aviask.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Visibility,Category,SubCategory,QuestionAnswers")] Question question)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Visibility,Category,SubCategory,QuestionAnswers,QuestionAnswersId")] Question question)
         {
             if (id != question.Id)
             {
@@ -213,7 +213,22 @@ namespace Aviask.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
+                {   
+                    //  Code boilerplate à changer
+                    //  TODO
+                    if (question.QuestionAnswers.Answer3 == null)
+                    {
+                        question.QuestionAnswers.NumberOfAnswers = 2;
+                    }
+                    else if (question.QuestionAnswers.Answer4 == null)
+                    {
+                        question.QuestionAnswers.NumberOfAnswers = 3;
+                    }
+                    else
+                    {
+                        question.QuestionAnswers.NumberOfAnswers = 4;
+                    }
+
                     _context.Update(question);
                     await _context.SaveChangesAsync();
                 }
