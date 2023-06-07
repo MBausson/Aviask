@@ -23,6 +23,7 @@ namespace Aviask.Controllers
         }
 
         // GET: Questions
+        [AllowAnonymous]
         public async Task<IActionResult> Index(MainCategoryType? category, SubCategoriesType? subcategory)
         {
             if (_context.Question == null)
@@ -41,6 +42,12 @@ namespace Aviask.Controllers
             if (subcategory != null)
             {
                 questionsQuery = questionsQuery.Where(q => q.SubCategory == subcategory);
+            }
+
+            //  Non logged in users can only access question with visibility 'Free'
+            if (!User.Identity.IsAuthenticated)
+            {
+                questionsQuery = questionsQuery.Where(q => q.Visibility == Visibility.Free);
             }
 
             return View(await questionsQuery.ToListAsync());
@@ -71,6 +78,7 @@ namespace Aviask.Controllers
         }
 
         // GET: Questions/NextDetails/5 
+        [AllowAnonymous]
         public async Task<IActionResult> NextDetails(int? id)
         {
             if (id == null || _context.Question == null)
@@ -81,9 +89,19 @@ namespace Aviask.Controllers
             var currentQuestion = await _context.Question.Include(q => q.QuestionAnswers)
                 .FirstOrDefaultAsync(q => q.Id == id);
 
-            var nextQuestion = await _context.Question.OrderBy(q => Math.Abs(q.Id - currentQuestion.Id))
-                .Include(q => q.QuestionAnswers)
-                .FirstOrDefaultAsync(q => q.Id != currentQuestion.Id);
+            IQueryable<Question> nextQuestionQuery = _context.Question;
+
+            //  Non logged in user can only see free questions
+            if (!User.Identity.IsAuthenticated)
+            {
+                nextQuestionQuery = nextQuestionQuery.Where(q => q.Visibility == Visibility.Free);
+            }
+
+            nextQuestionQuery = nextQuestionQuery
+                .OrderBy(q => Math.Abs(q.Id - currentQuestion.Id))
+                .Include(q => q.QuestionAnswers);
+
+            var nextQuestion = await nextQuestionQuery.FirstOrDefaultAsync(q => q.Id != currentQuestion.Id);
 
             if (nextQuestion == null || currentQuestion.Id >= nextQuestion.Id)
             {
@@ -292,6 +310,7 @@ namespace Aviask.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [NonAction]
         private bool QuestionExists(int id)
         {
             return (_context.Question?.Any(e => e.Id == id)).GetValueOrDefault();

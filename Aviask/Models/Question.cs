@@ -6,9 +6,9 @@ namespace Aviask.Models;
 
 public enum Visibility
 {
-    Free,
-    Public,
-    Private
+    Free,   //  Makes a question available to any person - registered or not
+    Public, //  Makes a question available to any logged in person
+    Private //  Makes a question available only to certain people : To be implemented or revised TODO
 }
 
 public class Question

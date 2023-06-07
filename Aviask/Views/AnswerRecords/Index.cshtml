@@ -19,6 +19,9 @@
                     @Html.DisplayNameFor(model => model.QuestionId)
                 </th>
                 <th>
+                    Categories
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Question)
                 </th>
                 <th>
@@ -38,9 +41,12 @@
                 <tr style="background-color: @bgColor;">
                     <td>
                         @Html.DisplayFor(modelItem => item.Date)
-                    </td>
+                    </td>   
                     <td>
                         @Html.DisplayFor(modelItem => item.QuestionId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Question.Category) - @Html.DisplayFor(modelItem => item.Question.SubCategory)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Question.Description)
