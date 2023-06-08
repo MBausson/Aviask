@@ -32,32 +32,18 @@
     </div>
     <div class="col-md-6 col-md-offset-2">
         <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
+           <h3>User's advantage</h3>
+
+           <hr />
+
+            <p style="font-size: 1.3rem;">
+                Having an account lets users access a <mark>wider range</mark> of questions (ATPL and other types of exams), as well as <mark>storing</mark> all their answers to questions.
+            </p>
+
+           <p style="font-size: 1.1rem;">
+               Furthermore, Logged-in users are offered tools to <mark>track</mark> their progress, they can see in which theme they need to work a little more, where they excel, etc...
+           </p>
+
         </section>
     </div>
 </div>

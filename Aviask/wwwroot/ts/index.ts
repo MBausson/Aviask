@@ -56,7 +56,7 @@ function updateUi(stats: UserStatistics): void {
     }</span>/<span style="color: red">${stats.failLifetime}</span>]`;
 
     if (stats.mostCorrectlyTheme !== null) {
-        mostCorrectThemeElement.innerHTML = `Category with the most correct answers : <u>${stats.mostCorrectlyTheme.correctAnswerCount}</u> (<b>${stats.mostCorrectlyTheme.correctAnswerCount}</b> correct answers.)`;
+        mostCorrectThemeElement.innerHTML = `Category with the most correct answers : <u>${stats.mostCorrectlyTheme.subCategoryName}</u> (<b>${stats.mostCorrectlyTheme.correctAnswerCount}</b> correct answers.)`;
     }
 
     if (stats.favoriteThemes.length == 0) {

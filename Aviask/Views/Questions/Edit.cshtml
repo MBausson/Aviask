@@ -15,6 +15,7 @@
             <input type="hidden" asp-for="Id" name="Id" value="@Model.Id" />
             <input type="hidden" asp-for="QuestionAnswersId" name="QuestionAnswersId" value="@Model.QuestionAnswersId" />
             <input type="hidden" asp-for="QuestionAnswers.Id" value="@Model.QuestionAnswersId" />
+
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -27,8 +28,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
+                <select asp-for="Category" asp-items="Html.GetEnumSelectList<MainCategoryType>()" class="form-select"></select>
                 <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubCategory" class="control-label"></label>
+                <select asp-for="SubCategory" asp-items="Html.GetEnumSelectList<SubCategoriesType>()" class="form-select"></select>
+                <span asp-validation-for="SubCategory" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Source" class="control-label"></label>
