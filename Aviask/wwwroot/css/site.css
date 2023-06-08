@@ -11,12 +11,6 @@
     --link-color: #0066cc;
 }
 
-@media (prefers-color-scheme: dark){
-    :root {
-        --primary-color: red;
-    }
-}
-
 html {
   font-size: 14px;
 }
@@ -107,8 +101,8 @@ body {
 
 #filter-container {
     display: flex;
+    align-items: baseline;
     justify-content: space-around;
-    align-items: center;
     gap: 1em;
 }
 
@@ -119,13 +113,12 @@ body {
     border-radius: 4px;
     font-weight: 400;
     font-size: 16px;
-    transition: all 0.15s ease-in-out;
     line-height: 1.5;
     cursor: pointer;
-    /*box-shadow: 0 2px 3em rgba(0, 0, 0, 0.4);*/
     vertical-align: middle;
     text-align: center;
     white-space: nowrap;
+    transition: all 0.15s ease-in-out;
 }
 
 a.button {

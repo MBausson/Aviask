@@ -87,7 +87,7 @@ namespace Aviask.Controllers
                 LastWeekRecordsCount = lastWeekRecords,
                 CorrectLifetime = correctLifetime,
                 FailLifetime = failLifetime,
-                RatioCorrectness = Math.Round(ratio, 1),
+                RatioCorrectness = Math.Round(ratio, 2),
                 FavoriteThemes = mostAnsweredThemes,    
                 MostCorrectlyTheme = mostCorrectlyTheme
             });

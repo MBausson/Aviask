@@ -1,14 +1,15 @@
 //  Represents user's themes he answered the most
-interface MostAnsweredTheme {
+interface Theme {
     subCategory: number;
     subCategoryName: string;
+}
+
+interface MostAnsweredTheme extends Theme {
     answerCount: number;
 }
 
 //  Represents user's themes he answered the best
-interface FavoriteTheme {
-    subCategory: number;
-    subCategoryName: string;
+interface FavoriteTheme extends Theme {
     correctAnswerCount: number;
 }
 
@@ -50,10 +51,12 @@ function updateUi(stats: UserStatistics): void {
     weekCountElement.innerHTML = `You answered <b>${stats.lastWeekRecordsCount}</b> question(s) the last <u>7 days</u>`;
     lifetimeRatioElement.innerHTML = `Lifetime answer correctness : <b>${
         stats.ratioCorrectness * 100
-    }%</b>[<span style="color:green">${stats.failLifetime}</span>]`;
+    }%</b>[<span style="color:green">${
+        stats.correctLifetime
+    }</span>/<span style="color: red">${stats.failLifetime}</span>]`;
 
     if (stats.mostCorrectlyTheme !== null) {
-        mostCorrectThemeElement.innerHTML = `Category with the most correct answers : <u>${stats.mostCorrectlyTheme.subCategoryName}</u> (<b>${stats.mostCorrectlyTheme.correctAnswerCount}</b> correct answers.)`;
+        mostCorrectThemeElement.innerHTML = `Category with the most correct answers : <u>${stats.mostCorrectlyTheme.correctAnswerCount}</u> (<b>${stats.mostCorrectlyTheme.correctAnswerCount}</b> correct answers.)`;
     }
 
     if (stats.favoriteThemes.length == 0) {
