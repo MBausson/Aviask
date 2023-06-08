@@ -1,4 +1,4 @@
-﻿using Aviask.Data;
+﻿    using Aviask.Data;
 using Aviask.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -60,6 +60,7 @@ namespace Aviask.Controllers
             }
 
             ViewData["Page"] = page;
+
             return View(await questionsQuery.ToListAsync());
         }
 

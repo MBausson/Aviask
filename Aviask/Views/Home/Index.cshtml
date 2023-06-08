@@ -10,7 +10,7 @@
     {
         <div class="page-container">
             <header class="text-center">
-                <h1 class="display-4">Welcome to Aviask</h1>
+                <h1 class="display-4 mb-4">Welcome to Aviask</h1>
                 <h4>Number of questions available : @ViewData["QuestionCount"]</h4>
             </header>
 
@@ -18,75 +18,36 @@
             <br />
 
             <section class="text-center">
-                <h5>Register and start browsing questions of various themes around aviation !</h5>
+                <h3 class="display-6 mb-5">Prepare your aviations theorical exams.</h3>
+                <h4 class="mb-4">Register and have access to a wide range of aviation related questions,
+                    from real ATPL exams, as well as other types of tests.
+                </h4>
+                <h5 class="mb-5">
+                    Hesitating ? You can try a bunch of questions without account
+                    <a asp-action="Index" asp-controller="Questions"
+                       style="font-size: 1.3em;">here</a>.
+                </h5>
 
-                <p>TODO: permettre à l'utilisateur de faire une série de questions sans compte, pour tester</p>
+                <a role="button" class="button button-primary" id="register"
+                 asp-area="Identity" asp-page="/Account/Register"
+                 style="transform: scale(3);">Register</a>
 
-                <a role="button" class="btn btn-primary" id="register"
-               asp-area="Identity" asp-page="/Account/Register">Register</a>
-                <a role="button" class="btn btn-primary" id="login"
-               asp-area="Identity" asp-page="/Account/Login">Sign in</a>
+                <a role="button" class="button button-secondary" id="login"
+                asp-area="Identity" asp-page="/Account/Login"
+                style="transform: scale(1.3);">Sign in</a>
             </section>
         </div>
     } else
     {
         @section Scripts {
-        <script async>
-            const weekCountElement = document.getElementById("week-count")
-            const lifetimeRatioElement = document.getElementById("lifetime-ratio")
-            const favoriteThemesListElement = document.getElementById("list-favourite-themes")
-            const mostCorrectThemeElement = document.getElementById("most-correct-theme")
-            const favoriteThemeEmojis = ['🔥', '🥈', '🥉']
-
-            const now = new Date().getTime();
-            const week_millis = 7 * 24 * 60 * 60 * 1000;
-
-            fetch(`${window.location.origin}/home/userstatistics`)
-            .then(async (result) => {
-                const json = await result.json()
-                console.log(json)
-                updateUi(json);
-
-                return result;
-            })
-            .catch((error) => {
-                console.error(error)
-            });
-
-            function updateUi(stats){
-                weekCountElement.innerHTML = `You answered <b>${stats.lastWeekRecordsCount}</b> question(s) the <u>last 7 days</u>.`
-                lifetimeRatioElement.innerHTML = `Lifetime answer correctness : <b>${stats.ratioCorrectness * 100}%</b> [<span style="color:green">${stats.correctLifetime}</span> / <span style="color:red">${stats.failLifetime}</span>]`
-                mostCorrectThemeElement.innerHTML = `Category with most correct answers : <u>${stats.mostCorrectlyTheme.subCategoryName}</u> (<b>${stats.mostCorrectlyTheme.correctAnswerCount}</b> correct answers)`
-                let favoriteThemeIndex = 0
-
-                stats.favoriteThemes.forEach((theme) => {
-                    let newListItem = document.createElement("li")
-                    newListItem.classList.add("list-group-item")
-                    newListItem.classList.add("fav-theme-container")
-
-                    let aCategoryName = document.createElement("a")
-                    aCategoryName.textContent = theme.subCategoryName
-                    aCategoryName.href = `/Questions?subcategory=${theme.subCategoryName}`
-
-                    let spanAnswerCount = document.createElement("span")
-                    spanAnswerCount.textContent = favoriteThemeEmojis[favoriteThemeIndex] + theme.answerCount;
-                    spanAnswerCount.style.fontWeight = "bold";
-
-                    newListItem.appendChild(aCategoryName)
-                    newListItem.appendChild(spanAnswerCount)
-
-                    favoriteThemesListElement.appendChild(newListItem);
-                    favoriteThemeIndex++
-                });
-            }
-        </script>
+            <script src="~/js/index.js"></script>
         }
 
         <div class="page-container">
             <header class="text-center">
                 <h1 class="display-4">Your dashboard</h1>
                 <hr />
-                <a asp-controller="Questions" class="button button-primary" asp-action="Index">Browse questions</a>               
+                <a role="button" asp-controller="Questions" class="button button-primary" asp-action="Index">Browse questions</a>               
             </header>
 
             <br/>

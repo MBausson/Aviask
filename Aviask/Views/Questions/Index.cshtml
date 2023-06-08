@@ -1,11 +1,16 @@
 ﻿@model IEnumerable<Aviask.Models.Question>
 
 @{
-    ViewData["Title"] = "Index";
+    if (ViewData["Page"] is null)
+    {
+        ViewData["Page"] = 1;
+    }
+
+    ViewData["Title"] = $"List of questions ({ViewData["Page"]})";
 }
 
 <main class="page-container">
-    <h1>List of questions</h1>
+    <h1>List of questions (@ViewData["Page"])</h1>
 
     <section class="top-main">
         @if (User.IsInRole("admin") || User.IsInRole("manager"))
