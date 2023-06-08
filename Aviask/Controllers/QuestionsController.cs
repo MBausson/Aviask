@@ -15,6 +15,7 @@ namespace Aviask.Controllers
     {
         private readonly AviaskContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private static readonly int MaxPageLength = 15;
 
         public QuestionsController(AviaskContext context, UserManager<IdentityUser> userManager)
         {
@@ -24,7 +25,7 @@ namespace Aviask.Controllers
 
         // GET: Questions
         [AllowAnonymous]
-        public async Task<IActionResult> Index(MainCategoryType? category, SubCategoriesType? subcategory)
+        public async Task<IActionResult> Index(MainCategoryType? category, SubCategoriesType? subcategory, int page = 1)
         {
             if (_context.Question == null)
             {
@@ -44,12 +45,21 @@ namespace Aviask.Controllers
                 questionsQuery = questionsQuery.Where(q => q.SubCategory == subcategory);
             }
 
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            questionsQuery = questionsQuery.Skip((page - 1) * MaxPageLength)
+                .Take(MaxPageLength);
+
             //  Non logged in users can only access question with visibility 'Free'
             if (!User.Identity.IsAuthenticated)
             {
                 questionsQuery = questionsQuery.Where(q => q.Visibility == Visibility.Free);
             }
 
+            ViewData["Page"] = page;
             return View(await questionsQuery.ToListAsync());
         }
 
@@ -169,7 +179,7 @@ namespace Aviask.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Visibility,Category,SubCategory,QuestionAnswers")] Question question)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Visibility,Category,Source,SubCategory,QuestionAnswers")] Question question)
         {
             if (ModelState.IsValid)
             {
@@ -221,7 +231,7 @@ namespace Aviask.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Visibility,Category,SubCategory,QuestionAnswers,QuestionAnswersId")] Question question)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Visibility,Category,Source,SubCategory,QuestionAnswers,QuestionAnswersId")] Question question)
         {
             if (id != question.Id)
             {

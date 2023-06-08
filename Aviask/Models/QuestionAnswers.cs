@@ -14,7 +14,7 @@ namespace Aviask.Models
         public string? Answer4 { get; set; }
 
         [Required][DisplayName("Correct answer")] public string CorrectAnswer { get; set; }
-        [Required] public string Explications { get; set; }
+        public string Explications { get; set; }
 
         public override string ToString() => $"<Answers #{Id} ({NumberOfAnswers}) : {Answer1}, {Answer2} => {CorrectAnswer}>";
     }

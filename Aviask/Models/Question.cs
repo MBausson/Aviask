@@ -20,6 +20,7 @@ public class Question
     [Required] public MainCategoryType Category { get; set; }
     [Required] public Visibility Visibility { get; set; }
     [Required] [DisplayName("Sub-category")] public SubCategoriesType SubCategory { get; set; }
+    public string? Source { get; set; }
 
     [ForeignKey("QuestionAnswers")]
     public int QuestionAnswersId { get; set; }

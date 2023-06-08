@@ -13,6 +13,8 @@
             asp-route-category="@Model.Category" 
             asp-route-subcategory="@Model.SubCategory"
            class="link-dark">Category : @Model.Category - @Model.SubCategory</a>
+        <p class="text-muted">Source: @(Model.Source ?? "Unknown")</p>
+
         <h3 class="text-center">@Model.Description</h3>
 
         <br />

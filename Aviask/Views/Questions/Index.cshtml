@@ -25,7 +25,7 @@
                     <option value="@cat.ToString()">@cat.ToString()</option>
                 }
             </select>
-        
+
             <label for="subcategory" class="sr-only">Sub-category</label>
             <select id="subcategory" name="subcategory" class="form-control" required>
                 <option disabled selected>No sub-category</option>
@@ -35,7 +35,11 @@
                 }
             </select>
 
+            <a role="button" asp-action="Index" asp-route-page="@((int)ViewData["Page"]-1)" class="button button-secondary">Previous page</a>
+            <a role="button" asp-action="Index" asp-route-page="@((int)ViewData["Page"]+1)" class="button button-secondary">Next page</a>
+
             <button type="submit" class="button button-primary mb-2">Search</button>
+
         </form>
     </section>
 

@@ -108,7 +108,7 @@ body {
 #filter-container {
     display: flex;
     justify-content: space-around;
-    align-items: baseline;
+    align-items: center;
     gap: 1em;
 }
 
@@ -125,6 +125,7 @@ body {
     /*box-shadow: 0 2px 3em rgba(0, 0, 0, 0.4);*/
     vertical-align: middle;
     text-align: center;
+    white-space: nowrap;
 }
 
 a.button {
