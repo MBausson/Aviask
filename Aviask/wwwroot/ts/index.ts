@@ -49,9 +49,7 @@ fetch("/home/userstatistics")
 
 function updateUi(stats: UserStatistics): void {
     weekCountElement.innerHTML = `You answered <b>${stats.lastWeekRecordsCount}</b> question(s) the last <u>7 days</u>`;
-    lifetimeRatioElement.innerHTML = `Lifetime answer correctness : <b>${
-        stats.ratioCorrectness * 100
-    }%</b>[<span style="color:green">${
+    lifetimeRatioElement.innerHTML = `Lifetime answer correctness : <b>${(stats.ratioCorrectness * 100).toFixed()}%</b>[<span style="color:green">${
         stats.correctLifetime
     }</span>/<span style="color: red">${stats.failLifetime}</span>]`;
 
@@ -59,7 +57,7 @@ function updateUi(stats: UserStatistics): void {
         mostCorrectThemeElement.innerHTML = `Category with the most correct answers : <u>${stats.mostCorrectlyTheme.subCategoryName}</u> (<b>${stats.mostCorrectlyTheme.correctAnswerCount}</b> correct answers.)`;
     }
 
-    if (stats.favoriteThemes.length == 0) {
+    if (stats.favoriteThemes.length === 0) {
         favoriteThemesListElement.innerHTML =
             "<b>😴 You didn't answer any question for the moment.</b>";
     }

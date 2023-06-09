@@ -17,5 +17,20 @@ namespace Aviask.Models
         public string Explications { get; set; }
 
         public override string ToString() => $"<Answers #{Id} ({NumberOfAnswers}) : {Answer1}, {Answer2} => {CorrectAnswer}>";
+        public IEnumerable<string> GetAnswers()
+        {
+            var answers = new List<string>() { Answer1, Answer2 };
+
+            if (Answer3 != null)
+            {
+                answers.Add(Answer3);
+            }
+            if (Answer4 != null)
+            {
+                answers.Add(Answer4);
+            }
+
+            return answers;
+        }
     }
 }

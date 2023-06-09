@@ -20,25 +20,18 @@
         <br />
     
         <div class="answer-container">
-            <button class="qst-answer">
-                @Model.QuestionAnswers.Answer1
-                <span class="qst-explication"></span>
-            </button>
-            <button class="qst-answer">
-                @Model.QuestionAnswers.Answer2
-                <span class="qst-explication"></span>
-            </button>
-            @if (Model.QuestionAnswers.NumberOfAnswers >= 3)
-            {
-                <button class="qst-answer">
-                    @Model.QuestionAnswers.Answer3
-                    <span class="qst-explication"></span>
-                </button>
+            @{
+                var answersEnumerator = Model.QuestionAnswers.GetAnswers();
+
+                //  Shuffles answers array
+                var rnd = new Random();
+                var answers = answersEnumerator.OrderBy(x => rnd.Next()).ToArray();
             }
-            @if (Model.QuestionAnswers.NumberOfAnswers >= 4)
+
+            @foreach(var answer in answers)
             {
                 <button class="qst-answer">
-                    @Model.QuestionAnswers.Answer4
+                    @answer
                     <span class="qst-explication"></span>
                 </button>
             }
