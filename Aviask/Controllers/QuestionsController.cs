@@ -180,8 +180,9 @@ namespace Aviask.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Visibility,Category,Source,SubCategory,QuestionAnswers")] Question question)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Visibility,Category,Source,SubCategory,QuestionAnswers")] Question question, IFormFile? illustrationFile)
         {
+
             if (ModelState.IsValid)
             {
                 if (question.QuestionAnswers.Answer3 == null)
@@ -195,6 +196,17 @@ namespace Aviask.Controllers
                 else
                 {
                     question.QuestionAnswers.NumberOfAnswers = 4;
+                }
+
+                if (illustrationFile != null && illustrationFile.Length > 0)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(illustrationFile.FileName);
+                    string filePath = Path.Combine("questions_images/") + fileName;
+                    string savedFilePath = Path.Combine("wwwroot/", filePath);
+
+                    await SaveIllustration(savedFilePath, illustrationFile);
+
+                    question.IllustrationPath = filePath;
                 }
 
                 _context.QuestionAnswers.Add(question.QuestionAnswers);
@@ -232,7 +244,7 @@ namespace Aviask.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Visibility,Category,Source,SubCategory,QuestionAnswers,QuestionAnswersId")] Question question)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Visibility,Category,Source,SubCategory,QuestionAnswers,QuestionAnswersId")] Question question, IFormFile? illustrationFile)
         {
             if (id != question.Id)
             {
@@ -256,6 +268,23 @@ namespace Aviask.Controllers
                     else
                     {
                         question.QuestionAnswers.NumberOfAnswers = 4;
+                    }
+
+                    //  If the questions had an illustration, deletes it and add the new one.
+                    if (illustrationFile != null)
+                    {
+                        if (question.IllustrationPath != null)
+                        {
+                            string oldFilePath = Path.Combine("wwwroot/questions_images", question.IllustrationPath);
+                            System.IO.File.Delete(oldFilePath);
+                        }
+
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(illustrationFile.FileName);
+                        string filePath = Path.Combine("questions_images/", fileName);
+                        string savedFilePath = Path.Combine("wwwroot/", filePath);
+
+                        await SaveIllustration(savedFilePath, illustrationFile);
+                        question.IllustrationPath = filePath;
                     }
 
                     _context.Update(question);
@@ -288,9 +317,6 @@ namespace Aviask.Controllers
 
             var question = await _context.Question.Include(q => q.QuestionAnswers).FirstOrDefaultAsync(q => q.Id == id);
 
-            //var question = await _context.Question
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-
             if (question == null)
             {
                 return NotFound();
@@ -313,6 +339,13 @@ namespace Aviask.Controllers
 
             if (question != null)
             {
+                //  If the questions has an illustration, deletes it.
+                if (question.IllustrationPath != null && question.IllustrationPath.Length > 0)
+                {
+                    string filePath = Path.Combine("wwwroot/", question.IllustrationPath);
+                    System.IO.File.Delete(filePath);
+                }
+
                 _context.QuestionAnswers.Remove(question.QuestionAnswers);
                 _context.Question.Remove(question);
             }
@@ -326,5 +359,14 @@ namespace Aviask.Controllers
         {
             return (_context.Question?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        private async Task SaveIllustration(string filePath, IFormFile file)
+        {
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+        }
+
     }
 }

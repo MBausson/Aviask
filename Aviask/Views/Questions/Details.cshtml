@@ -13,7 +13,7 @@
             asp-route-category="@Model.Category" 
             asp-route-subcategory="@Model.SubCategory"
            class="link-dark">Category : @Model.Category - @Model.SubCategory</a>
-        <p class="text-muted">Source: @(Model.Source ?? "Unknown")</p>
+        <cite style="display: block;" class="text-muted">Source: @(Model.Source ?? "Unknown")</cite>
 
         <h3 class="text-center">@Model.Description</h3>
 
@@ -34,6 +34,11 @@
                     @answer
                     <span class="qst-explication"></span>
                 </button>
+            }
+
+            @if (Model.IllustrationPath != null)
+            {
+                <img src="/@Model.IllustrationPath" />
             }
         </div>
     

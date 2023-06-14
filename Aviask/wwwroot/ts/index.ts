@@ -49,7 +49,7 @@ fetch("/home/userstatistics")
 
 function updateUi(stats: UserStatistics): void {
     weekCountElement.innerHTML = `You answered <b>${stats.lastWeekRecordsCount}</b> question(s) the last <u>7 days</u>`;
-    lifetimeRatioElement.innerHTML = `Lifetime answer correctness : <b>${(stats.ratioCorrectness * 100).toFixed()}%</b>[<span style="color:green">${
+    lifetimeRatioElement.innerHTML = `Lifetime answer correctness : <b>${(stats.ratioCorrectness * 100).toFixed()}% </b>[<span style="color:green">${
         stats.correctLifetime
     }</span>/<span style="color: red">${stats.failLifetime}</span>]`;
 

@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" name="Id" value="@Model.Id" />
             <input type="hidden" asp-for="QuestionAnswersId" name="QuestionAnswersId" value="@Model.QuestionAnswersId" />
@@ -69,6 +69,10 @@
                 <label asp-for="QuestionAnswers.Explications" class="control-label"></label>
                 <input asp-for="QuestionAnswers.Explications" class="form-control" />
                 <span asp-validation-for="QuestionAnswers.Explications" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IllustrationPath" class="control-label"></label>               
+                <input name="illustrationFile" class="form-control illustration-file" type="file" placeholder="@Model.IllustrationPath" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

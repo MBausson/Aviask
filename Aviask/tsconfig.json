@@ -1,7 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "lib": ["ES2015", "DOM"],
+    "lib": ["ES2017", "DOM"],
     "noImplicitAny": false,
     "noEmitOnError": true,
     "removeComments": false,

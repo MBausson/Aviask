@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -73,6 +73,10 @@
                 <input asp-for="QuestionAnswers.Explications" class="form-control" />
             </div>
             <div class="form-group">
+                <label asp-for="IllustrationPath" class="control-label"></label>
+                <input name="illustrationFile" class="form-control illustration-file" type="file" />
+            </div>
+            <div class="form-group mt-3">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -84,5 +88,6 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/illustrationUpload.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

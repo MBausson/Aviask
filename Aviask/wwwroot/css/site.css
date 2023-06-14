@@ -60,12 +60,14 @@ body {
 @keyframes CorrectAnimation {
     100% {
         background-color: #51884D;
+        border-color: rgba(0, 0, 0, 0.35);
     }
 }
 
 @keyframes WrongAnimation {
     100% {
         background-color: #DC4646;
+        border-color: rgba(0, 0, 0, 0.35);
     }
 }
 

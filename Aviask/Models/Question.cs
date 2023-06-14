@@ -26,6 +26,8 @@ public class Question
     public int QuestionAnswersId { get; set; }
     public QuestionAnswers QuestionAnswers { get; set; }
 
+    [DisplayName("Illustration Image")] public string? IllustrationPath { get; set; }
+
     public override string ToString() => $"<Question '{Title}' #{Id} : {QuestionAnswers}";
 }
 
