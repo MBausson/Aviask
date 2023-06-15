@@ -206,3 +206,18 @@ a.button:hover {
     display: flex;
     justify-content: space-between;
 }
+
+#qst-illustration {
+    /*margin: initial auto;*/
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+#qst-illustration > img {
+    max-width: 50%;
+    max-height: 550px;
+    outline: dashed #666 3px;
+    border-radius: 5px;
+    padding: 6px;
+}

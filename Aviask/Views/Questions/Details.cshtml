@@ -38,7 +38,11 @@
 
             @if (Model.IllustrationPath != null)
             {
-                <img src="/@Model.IllustrationPath" />
+                <span class="lead text-center text-decoration-underline">Question's illustration (click to expand)</span>
+
+                <a href="/@Model.IllustrationPath" target="_blank" id="qst-illustration" class="text-center">
+                    <img src="/@Model.IllustrationPath" alt="Question's illustration" />
+                </a>
             }
         </div>
     
