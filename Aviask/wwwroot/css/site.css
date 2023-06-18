@@ -42,6 +42,7 @@ body {
     border-radius: 4px;
 
     display: flex;
+    gap: 0.8em;
     justify-content: space-between;
 
     transition: transform 0.15s ease;
@@ -208,7 +209,6 @@ a.button:hover {
 }
 
 #qst-illustration {
-    /*margin: initial auto;*/
     display: flex;
     width: 100%;
     justify-content: center;
@@ -220,4 +220,16 @@ a.button:hover {
     outline: dashed #666 3px;
     border-radius: 5px;
     padding: 6px;
+}
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.form-answers-group {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
