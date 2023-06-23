@@ -9,76 +9,101 @@
 <h4>Question</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" name="Id" value="@Model.Id" />
-            <input type="hidden" asp-for="QuestionAnswersId" name="QuestionAnswersId" value="@Model.QuestionAnswersId" />
-            <input type="hidden" asp-for="QuestionAnswers.Id" value="@Model.QuestionAnswersId" />
+    <form asp-action="Edit" enctype="multipart/form-data">
+        <div class="d-flex flex-column gap-3">
 
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+            <!-- Title, visibility, source -->
+            <div class="d-flex justify-content-between">
+                <div>
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" placeholder="Question's title" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Visibility" class="control-label"></label>
+                    <select asp-for="Visibility" asp-items="Html.GetEnumSelectList<Visibility>()" class="form-select">
+                        <option value="1" selected disabled hidden>Choose a visibility</option>
+                    </select>
+                    <span asp-validation-for="Visibility" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Source" class="control-label"></label>
+                    <input asp-for="Source" class="form-control" placeholder="Source of the question" />
+                </div>
             </div>
-            <div class="form-group">
+
+            <!-- Description -->
+            <div style="max-width: 60%">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <input asp-for="Description" class="form-control" placeholder="What the question is about" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <select asp-for="Category" asp-items="Html.GetEnumSelectList<MainCategoryType>()" class="form-select"></select>
-                <span asp-validation-for="Category" class="text-danger"></span>
+
+            <!-- Category, Sub-Category -->
+            <div class="d-flex gap-3">
+                <div>
+                    <label asp-for="Category" class="control-label"></label>
+                    <select asp-for="Category" asp-items="Html.GetEnumSelectList<MainCategoryType>()" class="form-select"></select>
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="SubCategory" class="control-label"></label>
+                    <select asp-for="SubCategory" asp-items="Html.GetEnumSelectList<SubCategoriesType>()" class="form-select"></select>
+                    <span asp-validation-for="SubCategory" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="SubCategory" class="control-label"></label>
-                <select asp-for="SubCategory" asp-items="Html.GetEnumSelectList<SubCategoriesType>()" class="form-select"></select>
-                <span asp-validation-for="SubCategory" class="text-danger"></span>
+
+            <!-- Answers -->
+            <div class="form-answers-group">
+                <div class="form-group">
+                    <label asp-for="QuestionAnswers.Answer1" class="control-label"></label>
+                    <input asp-for="QuestionAnswers.Answer1" class="form-control" />
+                    <span asp-validation-for="QuestionAnswers.Answer1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="QuestionAnswers.Answer2" class="control-label"></label>
+                    <input asp-for="QuestionAnswers.Answer2" class="form-control" />
+                    <span asp-validation-for="QuestionAnswers.Answer2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="QuestionAnswers.Answer3" class="control-label"></label>
+                    <input asp-for="QuestionAnswers.Answer3" class="form-control" />
+                    <span asp-validation-for="QuestionAnswers.Answer3" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="QuestionAnswers.Answer4" class="control-label"></label>
+                    <input asp-for="QuestionAnswers.Answer4" class="form-control" />
+                    <span asp-validation-for="QuestionAnswers.Answer4" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Source" class="control-label"></label>
-                <input asp-for="Source" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="QuestionAnswers.Answer1" class="control-label"></label>
-                <input asp-for="QuestionAnswers.Answer1" class="form-control" />
-                <span asp-validation-for="QuestionAnswers.Answer1" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="QuestionAnswers.Answer2" class="control-label"></label>
-                <input asp-for="QuestionAnswers.Answer2" class="form-control" />
-                <span asp-validation-for="QuestionAnswers.Answer2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="QuestionAnswers.Answer3" class="control-label"></label>
-                <input asp-for="QuestionAnswers.Answer3" class="form-control" />
-                <span asp-validation-for="QuestionAnswers.Answer3" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="QuestionAnswers.Answer4" class="control-label"></label>
-                <input asp-for="QuestionAnswers.Answer4" class="form-control" />
-                <span asp-validation-for="QuestionAnswers.Answer4" class="text-danger"></span>
-            </div>
+
+            <!-- Correct answer -->
             <div class="form-group">
                 <label asp-for="QuestionAnswers.CorrectAnswer" class="control-label"></label>
                 <input asp-for="QuestionAnswers.CorrectAnswer" class="form-control" />
                 <span asp-validation-for="QuestionAnswers.CorrectAnswer" class="text-danger"></span>
             </div>
+
+            <!-- Explications -->
             <div class="form-group">
                 <label asp-for="QuestionAnswers.Explications" class="control-label"></label>
                 <input asp-for="QuestionAnswers.Explications" class="form-control" />
-                <span asp-validation-for="QuestionAnswers.Explications" class="text-danger"></span>
             </div>
+
+            <!-- Illustration -->
             <div class="form-group">
-                <label asp-for="IllustrationPath" class="control-label"></label>               
-                <input name="illustrationFile" class="form-control illustration-file" type="file" placeholder="@Model.IllustrationPath" />
+                <label asp-for="IllustrationPath" class="control-label"></label>
+                <input name="illustrationFile" class="form-control illustration-file" type="file" />
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="d-flex gap-3 justify-content-center">
+                <button class="button button-primary" type="submit">Create</button>
+                <a roles="button" asp-action="Index" asp-controller="Questions" class="button button-secondary">Question list</a>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
 <div>
@@ -86,5 +111,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
