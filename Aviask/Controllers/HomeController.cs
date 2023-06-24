@@ -47,8 +47,8 @@ namespace Aviask.Controllers
             int correctLifetime = await userRecordsQuery.Where(r => r.CorrectAnswer).CountAsync();
             int failLifetime = await userRecordsQuery.Where(r => !r.CorrectAnswer).CountAsync();
             float ratio;
-           
-            if (failLifetime != 0)
+
+            if (failLifetime + correctLifetime != 0) 
             {
                 ratio = (float)correctLifetime / (failLifetime + correctLifetime);
             } else
