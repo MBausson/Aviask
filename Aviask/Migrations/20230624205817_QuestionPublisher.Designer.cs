@@ -4,6 +4,7 @@ using Aviask.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aviask.Migrations
 {
     [DbContext(typeof(AviaskContext))]
-    partial class AviaskContextModelSnapshot : ModelSnapshot
+    [Migration("20230624205817_QuestionPublisher")]
+    partial class QuestionPublisher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,6 +78,7 @@ namespace Aviask.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PublisherId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("QuestionAnswersId")
@@ -353,7 +357,9 @@ namespace Aviask.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Publisher")
                         .WithMany()
-                        .HasForeignKey("PublisherId");
+                        .HasForeignKey("PublisherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Aviask.Models.QuestionAnswers", "QuestionAnswers")
                         .WithMany()

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,6 +26,10 @@ public class Question
     [ForeignKey("QuestionAnswers")]
     public int QuestionAnswersId { get; set; }
     public QuestionAnswers QuestionAnswers { get; set; }
+
+    [ForeignKey(nameof(Publisher))]
+    public string? PublisherId { get; set; }
+    public IdentityUser? Publisher { get; set; }
 
     [DisplayName("Illustration Image")] public string? IllustrationPath { get; set; }
 

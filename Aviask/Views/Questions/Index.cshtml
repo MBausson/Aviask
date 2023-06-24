@@ -10,8 +10,8 @@
 }
 
 <main class="page-container">
-    <h1>List of questions (@ViewData["Page"])</h1>
-
+    <h1 class="mt-3 ">List of questions (@ViewData["Page"])</h1>
+ 
     <section class="top-main">
         @if (User.IsInRole("admin") || User.IsInRole("manager"))
         {

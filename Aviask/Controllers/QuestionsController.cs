@@ -59,7 +59,7 @@ namespace Aviask.Controllers
                 questionsQuery = questionsQuery.Where(q => q.Visibility == Visibility.Free);
             }
 
-            ViewData["Page"] = page;
+            ViewData["Page"] = page;            
 
             return View(await questionsQuery.ToListAsync());
         }
@@ -72,8 +72,8 @@ namespace Aviask.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-
-            var question = await _context.Question.Include(q => q.QuestionAnswers).FirstOrDefaultAsync(q => q.Id == id);
+            
+            var question = await _context.Question.Include(q => q.QuestionAnswers).Include(q => q.Publisher).FirstOrDefaultAsync(q => q.Id == id);
 
             if (question == null)
             {
@@ -84,6 +84,8 @@ namespace Aviask.Controllers
             {
                 return RedirectToPage("/Identity/Account/Register");
             }
+
+            Debug.WriteLine(question.Publisher);
 
             return View(question);
         }
@@ -97,7 +99,7 @@ namespace Aviask.Controllers
                 id = 0;
             }
 
-            var currentQuestion = await _context.Question.Include(q => q.QuestionAnswers)
+            var currentQuestion = await _context.Question.Include(q => q.QuestionAnswers).Include(q => q.Publisher)
                 .FirstOrDefaultAsync(q => q.Id == id);
 
             IQueryable<Question> nextQuestionQuery = _context.Question;
@@ -130,7 +132,7 @@ namespace Aviask.Controllers
             if (check == null) return BadRequest();
 
             //  Retrieves the question based on given ID
-            var question = await _context.Question.Include(q => q.QuestionAnswers).FirstOrDefaultAsync(m => m.Id == id);
+            var question = await _context.Question.Include(q => q.QuestionAnswers).Include(q => q.Publisher).FirstOrDefaultAsync(m => m.Id == id);
 
             if (question == null) return NotFound();
 
@@ -180,9 +182,8 @@ namespace Aviask.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Visibility,Category,Source,SubCategory,QuestionAnswers")] Question question, IFormFile? illustrationFile)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Visibility,Category,Source,SubCategory,QuestionAnswers,Publisher")] Question question, IFormFile? illustrationFile)
         {
-
             if (ModelState.IsValid)
             {
                 if (question.QuestionAnswers.Answer3 == null)
@@ -209,6 +210,8 @@ namespace Aviask.Controllers
                     question.IllustrationPath = filePath;
                 }
 
+                question.PublisherId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
+
                 _context.QuestionAnswers.Add(question.QuestionAnswers);
                 _context.Add(question.QuestionAnswers);
                 _context.Add(question);
@@ -216,6 +219,7 @@ namespace Aviask.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+
             return View(question);
         }
 
@@ -315,7 +319,7 @@ namespace Aviask.Controllers
                 return NotFound();
             }
 
-            var question = await _context.Question.Include(q => q.QuestionAnswers).FirstOrDefaultAsync(q => q.Id == id);
+            var question = await _context.Question.Include(q => q.QuestionAnswers).Include(q => q.Publisher).FirstOrDefaultAsync(q => q.Id == id);
 
             if (question == null)
             {
@@ -335,7 +339,7 @@ namespace Aviask.Controllers
             {
                 return Problem("Entity set 'AviaskContext.Question'  is null.");
             }
-            var question = await _context.Question.Include(q => q.QuestionAnswers).FirstOrDefaultAsync(q => q.Id == id);
+            var question = await _context.Question.Include(q => q.QuestionAnswers).Include(q => q.Publisher).FirstOrDefaultAsync(q => q.Id == id);
 
             if (question != null)
             {
