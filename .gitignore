@@ -3,6 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+﻿questions_images/
+
 # User-specific files
 *.rsuser
 *.suo
