@@ -198,6 +198,12 @@ namespace Aviask.Controllers
                 {
                     question.QuestionAnswers.NumberOfAnswers = 4;
                 }
+                
+                if (!question.QuestionAnswers.GetAnswers().Contains(question.QuestionAnswers.CorrectAnswer))
+                {
+                    ModelState.AddModelError("QuestionAnswers.CorrectAnswer", "No correct answer was found in your answer propositions.");
+                    return View(question);
+                }
 
                 if (illustrationFile != null && illustrationFile.Length > 0)
                 {

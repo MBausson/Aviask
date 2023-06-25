@@ -28,6 +28,7 @@
   <ItemGroup>
     <Folder Include="sql_queries\" />
     <Folder Include="wwwroot\questions_images\" />
+    <Folder Include="wwwroot\questions_images\" />
   </ItemGroup>
 
 </Project>

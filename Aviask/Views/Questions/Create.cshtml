@@ -5,12 +5,16 @@
     ViewData["Title"] = "Create";
 }
 
+@*
+    TODO: when submitting, check that the correct answer is effectevely available
+*@
+
 <h1>Create a question</h1>
 
 <hr />
 
 <div class="row">
-    <form asp-action="Create" enctype="multipart/form-data">
+    <form asp-action="Create" id="questionForm" enctype="multipart/form-data">
         <div class="d-flex flex-column gap-3">
             
             <!-- Title, visibility, source -->
@@ -110,5 +114,8 @@
 
 @section Scripts {
     <script src="~/js/illustrationUpload.js"></script>
+    
+    <script src="~/js/answersValidation.js"></script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
