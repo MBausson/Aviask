@@ -1,4 +1,6 @@
 using Aviask.Data;
+using Aviask.Models;
+using Aviask.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.WebEncoders;
@@ -13,7 +15,8 @@ builder.Services.AddDbContext<AviaskContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<AviaskContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AviaskContext")));
+builder.Services.AddScoped<IAviaskRepository<Question>, QuestionRepository>();
+builder.Services.AddScoped<AviaskContext>();
 
 /*  Identity    */
 builder.Services.Configure<IdentityOptions>(options =>
@@ -25,7 +28,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredLength = 4;
     options.Password.RequiredUniqueChars = 1;
 });
-
 
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
@@ -67,10 +69,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.UseAuthorization();
 
 

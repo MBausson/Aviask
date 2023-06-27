@@ -13,7 +13,12 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="Username" />
+                <label asp-for="Input.UserName" ></label>
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="on" aria-required="true" placeholder="name@example.com" />
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
@@ -41,7 +46,7 @@
             </p>
 
            <p style="font-size: 1.1rem;">
-               Furthermore, Logged-in users are offered tools to <mark>track</mark> their progress, they can see in which theme they need to work a little more, where they excel, etc...
+               Furthermore, Logged-in users are offered tools to <mark>track</mark> their progress, allowing them to identify which theme they excel and which theme they struggle.
            </p>
 
         </section>

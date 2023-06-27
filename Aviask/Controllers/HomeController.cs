@@ -12,13 +12,11 @@ namespace Aviask.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly AviaskContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, AviaskContext context, UserManager<IdentityUser> userManager)
+        public HomeController(AviaskContext context, UserManager<IdentityUser> userManager)
         {
-            _logger = logger;
             _context = context;
             _userManager = userManager;
         }

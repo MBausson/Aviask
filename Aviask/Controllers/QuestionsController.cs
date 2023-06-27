@@ -1,12 +1,10 @@
-﻿    using Aviask.Data;
+﻿using Aviask.Data;
 using Aviask.Models;
+using Aviask.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace Aviask.Controllers
 {
@@ -15,25 +13,21 @@ namespace Aviask.Controllers
     {
         private readonly AviaskContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IAviaskRepository<Question> _questionRepository;
         private static readonly int MaxPageLength = 15;
 
-        public QuestionsController(AviaskContext context, UserManager<IdentityUser> userManager)
+        public QuestionsController(AviaskContext context, UserManager<IdentityUser> userManager, IAviaskRepository<Question> questionRepository)
         {
             _context = context;
             _userManager = userManager;
+            _questionRepository = questionRepository;
         }
 
         // GET: Questions
         [AllowAnonymous]
         public async Task<IActionResult> Index(MainCategoryType? category, SubCategoriesType? subcategory, int page = 1)
         {
-            if (_context.Question == null)
-            {
-                Problem("Entity set 'AviaskContext.Question'  is null.");
-                return NoContent();
-            }
-
-            var questionsQuery = _context.Question.Include(q => q.QuestionAnswers).AsQueryable();
+            var questionsQuery = _questionRepository.GetAll();
 
             if (category != null)
             {
@@ -68,13 +62,13 @@ namespace Aviask.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Question == null)
+            if (id == null)
             {
                 return RedirectToAction(nameof(Index));
             }
-            
-            var question = await _context.Question.Include(q => q.QuestionAnswers).Include(q => q.Publisher).FirstOrDefaultAsync(q => q.Id == id);
 
+            var question = await _questionRepository.GetByIdAsync((int)id);
+            
             if (question == null)
             {
                 return NotFound();
@@ -83,9 +77,7 @@ namespace Aviask.Controllers
             if (!User.Identity.IsAuthenticated && question.Visibility != Visibility.Free)
             {
                 return RedirectToPage("/Identity/Account/Register");
-            }
-
-            Debug.WriteLine(question.Publisher);
+            }   
 
             return View(question);
         }
@@ -94,15 +86,14 @@ namespace Aviask.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> NextDetails(int? id)
         {
-            if (id == null || _context.Question == null)
+            if (id == null)
             {
                 id = 0;
             }
 
-            var currentQuestion = await _context.Question.Include(q => q.QuestionAnswers).Include(q => q.Publisher)
-                .FirstOrDefaultAsync(q => q.Id == id);
+            var currentQuestion = await _questionRepository.GetByIdAsync((int)id);
 
-            IQueryable<Question> nextQuestionQuery = _context.Question;
+            IQueryable<Question> nextQuestionQuery = _questionRepository.GetAll();
 
             //  Non logged in user can only see free questions
             if (!User.Identity.IsAuthenticated)
@@ -127,12 +118,11 @@ namespace Aviask.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CheckAnswer(int? id, string? check)
         {
-            if (id == null || _context.Question == null) return NotFound();
-
+            if (id == null) return NotFound();
             if (check == null) return BadRequest();
 
             //  Retrieves the question based on given ID
-            var question = await _context.Question.Include(q => q.QuestionAnswers).Include(q => q.Publisher).FirstOrDefaultAsync(m => m.Id == id);
+            var question = await _questionRepository.GetByIdAsync((int)id);
 
             if (question == null) return NotFound();
 
@@ -208,20 +198,15 @@ namespace Aviask.Controllers
                 if (illustrationFile != null && illustrationFile.Length > 0)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(illustrationFile.FileName);
-                    string filePath = Path.Combine("questions_images/") + fileName;
-                    string savedFilePath = Path.Combine("wwwroot/", filePath);
-
-                    await SaveIllustration(savedFilePath, illustrationFile);
+                    string filePath = Path.Combine("questions_images/", fileName);
 
                     question.IllustrationPath = filePath;
+                    await ((QuestionRepository)_questionRepository).SaveIllustration(question, illustrationFile);
                 }
 
                 question.PublisherId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
-
-                _context.QuestionAnswers.Add(question.QuestionAnswers);
-                _context.Add(question.QuestionAnswers);
-                _context.Add(question);
-                await _context.SaveChangesAsync();
+                
+                await _questionRepository.CreateAsync(question);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -233,12 +218,12 @@ namespace Aviask.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Question == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var question = await _context.Question.Include(q => q.QuestionAnswers).FirstOrDefaultAsync(q => q.Id == id);
+            var question = await _questionRepository.GetByIdAsync((int)id);
 
             if (question == null)
             {
@@ -291,18 +276,16 @@ namespace Aviask.Controllers
 
                         string fileName = Guid.NewGuid().ToString() + Path.GetExtension(illustrationFile.FileName);
                         string filePath = Path.Combine("questions_images/", fileName);
-                        string savedFilePath = Path.Combine("wwwroot/", filePath);
 
-                        await SaveIllustration(savedFilePath, illustrationFile);
                         question.IllustrationPath = filePath;
+                        await ((QuestionRepository)_questionRepository).SaveIllustration(question, illustrationFile);
                     }
 
-                    _context.Update(question);
-                    await _context.SaveChangesAsync();
+                    await _questionRepository.UpdateAsync(question);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuestionExists(question.Id))
+                    if (!await QuestionExists(question.Id))
                     {
                         return NotFound();
                     }
@@ -311,6 +294,7 @@ namespace Aviask.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(question);
@@ -320,12 +304,12 @@ namespace Aviask.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Question == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var question = await _context.Question.Include(q => q.QuestionAnswers).Include(q => q.Publisher).FirstOrDefaultAsync(q => q.Id == id);
+            var question = await _questionRepository.GetByIdAsync((int)id);
 
             if (question == null)
             {
@@ -341,41 +325,19 @@ namespace Aviask.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Question == null)
-            {
-                return Problem("Entity set 'AviaskContext.Question'  is null.");
-            }
-            var question = await _context.Question.Include(q => q.QuestionAnswers).Include(q => q.Publisher).FirstOrDefaultAsync(q => q.Id == id);
+            var question = await _questionRepository.GetByIdAsync((int)id);
 
-            if (question != null)
-            {
-                //  If the questions has an illustration, deletes it.
-                if (question.IllustrationPath != null && question.IllustrationPath.Length > 0)
-                {
-                    string filePath = Path.Combine("wwwroot/", question.IllustrationPath);
-                    System.IO.File.Delete(filePath);
-                }
+            if (question == null) return NotFound();
 
-                _context.QuestionAnswers.Remove(question.QuestionAnswers);
-                _context.Question.Remove(question);
-            }
+            await _questionRepository.DeleteAsync(question);
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         [NonAction]
-        private bool QuestionExists(int id)
+        private async Task<bool> QuestionExists(int id)
         {
-            return (_context.Question?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-
-        private async Task SaveIllustration(string filePath, IFormFile file)
-        {
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
+            return await _questionRepository.ExistsByIdAsync((int)id);
         }
 
     }
