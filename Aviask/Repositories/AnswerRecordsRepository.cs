@@ -15,8 +15,11 @@ namespace Aviask.Repositories
 
         public async Task<List<AnswerRecords>> GetRecordsFromUserIdAsync(string userId)
         {
-            return await _context.AnswerRecords
+            return await GetAll()
+                .Include(r => r.Question)
                 .Where(r => r.UserId == userId)
+                .OrderByDescending(r => r.Date)
+                .Take(50)
                 .ToListAsync();
         }
 

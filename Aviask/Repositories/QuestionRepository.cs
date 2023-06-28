@@ -16,7 +16,9 @@ namespace Aviask.Repositories
 
         public IQueryable<Question> GetAll()
         {
-            return _context.Question;
+            return _context.Question
+                .Include(q => q.QuestionAnswers)
+                .Include(q => q.Publisher);
         }
 
         public async Task<bool> ExistsByIdAsync(int id)

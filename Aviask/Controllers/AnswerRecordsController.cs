@@ -9,18 +9,19 @@ using Aviask.Data;
 using Aviask.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Aviask.Repositories;
 
 namespace Aviask.Controllers
 {
     [Authorize]
     public class AnswerRecordsController : Controller
     {
-        private readonly AviaskContext _context;
+        private readonly IAviaskRepository<AnswerRecords> _answerRecordsRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public AnswerRecordsController(AviaskContext context, UserManager<IdentityUser> userManager)
+        public AnswerRecordsController(IAviaskRepository<AnswerRecords> answerRecordsRepository, UserManager<IdentityUser> userManager)
         {
-            _context = context;
+            _answerRecordsRepository = answerRecordsRepository;
             _userManager = userManager;
         }
 
@@ -28,9 +29,9 @@ namespace Aviask.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
-            var aviaskContext = _context.AnswerRecords.Include(a => a.Question).Where(r => r.UserId == userId);
+            var records = await ((AnswerRecordsRepository)_answerRecordsRepository).GetRecordsFromUserIdAsync(userId);
 
-            return View(await aviaskContext.ToListAsync());
+            return View(records);
         }
     }
 }
