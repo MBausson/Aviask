@@ -1,6 +1,7 @@
 ﻿using Aviask.Data;
 using Aviask.Models;
 using Aviask.Repositories;
+using Aviask.Models.ResponseModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -122,7 +123,7 @@ namespace Aviask.Controllers
             if (check == null) return BadRequest();
 
             //  Retrieves the question based on given ID
-            var question = await _questionRepository.GetByIdAsync((int)id);
+            var question = await _questionRepository.GetByIdAsync(id.Value);
 
             if (question == null) return NotFound();
 
@@ -132,13 +133,13 @@ namespace Aviask.Controllers
                 return RedirectToPage("/Identity/Account/Register");
             }
 
-            bool correctAnswer = question.QuestionAnswers.CorrectAnswer.Trim().ToLower() == check.Trim().ToLower();
+            bool correctAnswer = string.Equals(question.QuestionAnswers.CorrectAnswer.Trim(), check.Trim(), StringComparison.OrdinalIgnoreCase);
 
-            //  If the user is logged in, add an answer record
+            //  If the user is logged in, add an answer record to its account
             if (User.Identity.IsAuthenticated)
             {
                 var userId = _userManager.GetUserId(HttpContext.User);
-                var newRecord = new Models.AnswerRecords
+                var newRecord = new AnswerRecords
                 {
                     UserId = userId,
                     QuestionId = question.Id,
@@ -149,13 +150,7 @@ namespace Aviask.Controllers
                 await _answerRecordsRepository.CreateAsync(newRecord);
             }
 
-            return Ok(new
-            {
-                Id = id,
-                IsCorrect = correctAnswer,
-                CorrectAnswer = question.QuestionAnswers.CorrectAnswer,
-                Explication = question.QuestionAnswers.Explications
-            });
+            return Ok(new CheckAnswerResponse(id.Value, correctAnswer, question.QuestionAnswers.CorrectAnswer, question.QuestionAnswers.Explications));
         }
 
         // GET: Questions/Create
@@ -337,7 +332,7 @@ namespace Aviask.Controllers
         private async Task<bool> QuestionExists(int id)
         {
             return await _questionRepository.ExistsByIdAsync((int)id);
-        }
+        }        
 
     }
 }
