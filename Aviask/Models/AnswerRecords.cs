@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Aviask.Models
 {
-    public class AnswerRecords
+    public class AnswerRecords : BaseModel
     {
         public int Id { get; set; }
         public string UserId { get; set; }

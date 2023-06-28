@@ -97,7 +97,7 @@ namespace Aviask.Migrations
                     b.ToTable("Question", (string)null);
                 });
 
-            modelBuilder.Entity("Aviask.Models.QuestionAnswers", b =>
+            modelBuilder.Entity("Aviask.Models.AnswerRecords", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,7 +132,7 @@ namespace Aviask.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("QuestionAnswers", (string)null);
+                    b.ToTable("AnswerRecords", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -346,13 +346,13 @@ namespace Aviask.Migrations
 
             modelBuilder.Entity("Aviask.Models.Question", b =>
                 {
-                    b.HasOne("Aviask.Models.QuestionAnswers", "QuestionAnswers")
+                    b.HasOne("Aviask.Models.AnswerRecords", "AnswerRecords")
                         .WithMany()
                         .HasForeignKey("QuestionAnswersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("QuestionAnswers");
+                    b.Navigation("AnswerRecords");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

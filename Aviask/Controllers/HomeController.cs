@@ -1,5 +1,6 @@
 ﻿using Aviask.Data;
 using Aviask.Models;
+using Aviask.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,19 +13,19 @@ namespace Aviask.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly AviaskContext _context;
+        private readonly IAviaskRepository<AnswerRecords> _answerRecordsRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(AviaskContext context, UserManager<IdentityUser> userManager)
+        public HomeController(IAviaskRepository<AnswerRecords> recordsRepository, UserManager<IdentityUser> userManager)
         {
-            _context = context;
+            _answerRecordsRepository = recordsRepository;
             _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
             //  We pass as viewdata the count of registered questions.
-            ViewData["QuestionCount"] = await _context.Question.CountAsync();
+            ViewData["QuestionCount"] = await _answerRecordsRepository.GetAll().CountAsync();
 
             return View();
         }
@@ -32,10 +33,10 @@ namespace Aviask.Controllers
         [Authorize]
         public async Task<IActionResult> UserStatistics()
         {
-            Debug.WriteLine("zz");
             var id = _userManager.GetUserId(User);
-
-            var userRecordsQuery = from r in _context.AnswerRecords where r.UserId == id select r;
+            
+            var userRecordsQuery = _answerRecordsRepository.GetAll();
+            userRecordsQuery = userRecordsQuery.Where(r => r.UserId == id);
 
             //  Counts how much questions were answered since last 7 days
             var now = DateTime.Now;
@@ -55,40 +56,31 @@ namespace Aviask.Controllers
             }
 
             //  Computes the 3 most answered subcategories
-            var mostAnsweredThemes = (await userRecordsQuery
+            var mostAnsweredThemes = userRecordsQuery
+                .AsEnumerable()
                 .GroupBy(r => r.Question.SubCategory)
-                .Select(g => new
-                {
-                    SubCategory = g.Key,
-                    SubCategoryName = g.Key.ToString(),
-                    AnswerCount = g.Count()
-                })
+                .Select(g => new StatisticsCategoryResponse(g.Key, g.Key.ToString(), g.Count()))
                 .OrderByDescending(g => g.AnswerCount)
                 .Take(3)
-                .ToListAsync());
+                .ToList();
 
             //  Computes the most correctly answered category
-            var mostCorrectlyTheme = await userRecordsQuery
+            var mostCorrectlyTheme = userRecordsQuery
+                .AsEnumerable()
                 .Where(r => r.CorrectAnswer)
                 .GroupBy(r => r.Question.SubCategory)
-                .Select(g => new
-                {
-                    SubCategory = g.Key,
-                    SubCategoryName = g.Key.ToString(),
-                    CorrectAnswerCount = g.Count()
-                })
-                .OrderByDescending(g => g.CorrectAnswerCount)
-                .FirstOrDefaultAsync();
+                .Select(g => new StatisticsCategoryResponse(g.Key, g.Key.ToString(), g.Count()))
+                .OrderByDescending(g => g.AnswerCount)
+                .FirstOrDefault();
 
-            return Ok(new
-            {
-                LastWeekRecordsCount = lastWeekRecords,
-                CorrectLifetime = correctLifetime,
-                FailLifetime = failLifetime,
-                RatioCorrectness = ratio,
-                FavoriteThemes = mostAnsweredThemes,    
-                MostCorrectlyTheme = mostCorrectlyTheme
-            });
+            return Ok(new UserStatisticsResponse(
+                lastWeekRecords,
+                correctLifetime,
+                failLifetime,
+                ratio,
+                mostCorrectlyTheme!,
+                mostAnsweredThemes
+            ));
         }
 
         public IActionResult Privacy()

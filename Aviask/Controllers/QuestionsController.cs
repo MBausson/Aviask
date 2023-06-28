@@ -11,16 +11,16 @@ namespace Aviask.Controllers
     [Authorize]
     public class QuestionsController : Controller
     {
-        private readonly AviaskContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IAviaskRepository<Question> _questionRepository;
+        private readonly IAviaskRepository<AnswerRecords> _answerRecordsRepository;
         private static readonly int MaxPageLength = 15;
 
-        public QuestionsController(AviaskContext context, UserManager<IdentityUser> userManager, IAviaskRepository<Question> questionRepository)
+        public QuestionsController(UserManager<IdentityUser> userManager, IAviaskRepository<AnswerRecords> recordsRepository, IAviaskRepository<Question> questionRepository)
         {
-            _context = context;
             _userManager = userManager;
             _questionRepository = questionRepository;
+            _answerRecordsRepository = recordsRepository;
         }
 
         // GET: Questions
@@ -138,16 +138,15 @@ namespace Aviask.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var userId = _userManager.GetUserId(HttpContext.User);
-
-                _context.AnswerRecords.Add(new AnswerRecords
+                var newRecord = new Models.AnswerRecords
                 {
                     UserId = userId,
                     QuestionId = question.Id,
                     Answered = check,
                     CorrectAnswer = correctAnswer
-                });
+                };
 
-                await _context.SaveChangesAsync();
+                await _answerRecordsRepository.CreateAsync(newRecord);
             }
 
             return Ok(new

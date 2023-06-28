@@ -16,6 +16,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IAviaskRepository<Question>, QuestionRepository>();
+builder.Services.AddScoped<IAviaskRepository<AnswerRecords>, AnswerRecordsRepository>();
 builder.Services.AddScoped<AviaskContext>();
 
 /*  Identity    */

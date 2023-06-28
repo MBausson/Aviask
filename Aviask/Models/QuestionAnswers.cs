@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Aviask.Models
 {
-    public class QuestionAnswers
+    public class QuestionAnswers : BaseModel
     {
         public int Id { get; set; }
         public int NumberOfAnswers { get; set; }

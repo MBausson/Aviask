@@ -73,7 +73,7 @@ namespace Aviask.Migrations
                     b.ToTable("Question", (string)null);
                 });
 
-            modelBuilder.Entity("Aviask.Models.QuestionAnswers", b =>
+            modelBuilder.Entity("Aviask.Models.AnswerRecords", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,7 +104,7 @@ namespace Aviask.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("QuestionAnswers", (string)null);
+                    b.ToTable("AnswerRecords", (string)null);
                 });
 #pragma warning restore 612, 618
         }

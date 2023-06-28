@@ -25,25 +25,25 @@ fetch("/home/userstatistics")
 });
 function updateUi(stats) {
     weekCountElement.innerHTML = `You answered <b>${stats.lastWeekRecordsCount}</b> question(s) the last <u>7 days</u>`;
-    lifetimeRatioElement.innerHTML = `Lifetime answer correctness : <b>${(stats.ratioCorrectness * 100).toFixed()}% </b>[<span style="color:green">${stats.correctLifetime}</span>/<span style="color: red">${stats.failLifetime}</span>]`;
-    if (stats.mostCorrectlyTheme !== null) {
-        mostCorrectThemeElement.innerHTML = `Category with the most correct answers : <u>${stats.mostCorrectlyTheme.subCategoryName}</u> (<b>${stats.mostCorrectlyTheme.correctAnswerCount}</b> correct answers.)`;
+    lifetimeRatioElement.innerHTML = `Lifetime answer correctness : <b>${(stats.ratioCorrectness * 100).toFixed()}% </b>[<span style="color:green">${stats.correctLifetimeCount}</span>/<span style="color: red">${stats.failLifetimeCount}</span>]`;
+    if (stats.mostCorrectCategory !== null) {
+        mostCorrectThemeElement.innerHTML = `Category with the most correct answers : <u>${stats.mostCorrectCategory.subCategoryName}</u> (<b>${stats.mostCorrectCategory.answerCount}</b> correct answers.)`;
     }
-    if (stats.favoriteThemes.length === 0) {
+    if (stats.mostAnsweredCategories.length === 0) {
         favoriteThemesListElement.innerHTML =
             "<b>😴 You didn't answer any question for the moment.</b>";
     }
     let favoriteThemeIndex = 0;
-    stats.favoriteThemes.forEach(function (theme) {
+    stats.mostAnsweredCategories.forEach(function (cat) {
         const newListItem = document.createElement("li");
         newListItem.classList.add("list-group-item");
         newListItem.classList.add("fav-theme-container");
         const aCategoryName = document.createElement("a");
-        aCategoryName.textContent = theme.subCategoryName;
-        aCategoryName.href = `/Questions?subcategory=${theme.subCategoryName}`;
+        aCategoryName.textContent = cat.subCategoryName;
+        aCategoryName.href = `/Questions?subcategory=${cat.subCategoryName}`;
         const spanAnswerCount = document.createElement("span");
         spanAnswerCount.textContent =
-            favoriteCategoriesEmojis[favoriteThemeIndex] + theme.answerCount;
+            favoriteCategoriesEmojis[favoriteThemeIndex] + cat.answerCount;
         spanAnswerCount.style.fontWeight = "bold";
         newListItem.appendChild(aCategoryName);
         newListItem.appendChild(spanAnswerCount);
