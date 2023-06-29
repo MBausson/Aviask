@@ -1,5 +1,6 @@
 ﻿using Aviask.Data;
 using Aviask.Models;
+using Aviask.Models.ResponseModels;
 using Aviask.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

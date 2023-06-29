@@ -14,7 +14,7 @@ public enum Visibility
 
 public class Question : BaseModel
 {
-    public int Id { get; set; }
+    public new int Id { get; set; }
 
     [Required] public string Title { get; set; }
     [Required] public string Description { get; set; }

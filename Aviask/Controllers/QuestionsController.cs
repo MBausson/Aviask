@@ -33,11 +33,13 @@ namespace Aviask.Controllers
             if (category != null)
             {
                 questionsQuery = questionsQuery.Where(q => q.Category == category);
+                ViewData["Category"] = category.Value;
             }
 
             if (subcategory != null)
             {
                 questionsQuery = questionsQuery.Where(q => q.SubCategory == subcategory);
+                ViewData["Sub-category"] = subcategory.Value;
             }
 
             if (page < 1)
@@ -54,8 +56,7 @@ namespace Aviask.Controllers
                 questionsQuery = questionsQuery.Where(q => q.Visibility == Visibility.Free);
             }
 
-            ViewData["Page"] = page;            
-
+            ViewData["Page"] = page;
             return View(await questionsQuery.ToListAsync());
         }
 

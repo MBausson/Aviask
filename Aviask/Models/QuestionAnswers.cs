@@ -5,7 +5,7 @@ namespace Aviask.Models
 {
     public class QuestionAnswers : BaseModel
     {
-        public int Id { get; set; }
+        public new int Id { get; set; }
         public int NumberOfAnswers { get; set; }
 
         [Required] public string Answer1 { get; set; }

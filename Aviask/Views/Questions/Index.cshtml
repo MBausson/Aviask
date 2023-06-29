@@ -6,11 +6,14 @@
         ViewData["Page"] = 1;
     }
 
-    ViewData["Title"] = $"List of questions ({ViewData["Page"]})";
+    ViewData["Title"] = $"List of questions [{ViewData["Page"]}]";
+
+    int resultCount = Model.Count();
+    string resultPhrase = resultCount < 2 ? $"{resultCount} result" : $"{resultCount} results   ";
 }
 
 <main class="page-container">
-    <h1 class="mt-3 ">List of questions (@ViewData["Page"])</h1>
+    <h1 class="mt-3 ">List of questions [@ViewData["Page"]] - @resultPhrase</h1>
  
     <section class="top-main">
         @if (User.IsInRole("admin") || User.IsInRole("manager"))
@@ -24,19 +27,54 @@
         <form id="filter-container" action="@Url.Action("Index", "Questions")" method="get" class="form-inline">
             <label for="category" class="sr-only">Category</label>
             <select id="category" name="category" class="form-control" required>
-                <option disabled selected>No category</option>
-                @foreach (var cat in Enum.GetValues(typeof(MainCategoryType)))
+                @{
+                    var category = ViewData["Category"] as MainCategoryType?;
+
+                    if (category == null)
+                    {
+                        <option disabled selected>No category</option>
+                    } else
+                    {
+                        <option>No category</option>
+                    }
+                }
+                
+                @foreach (MainCategoryType cat in Enum.GetValues(typeof(MainCategoryType)))
                 {
-                    <option value="@cat.ToString()">@cat.ToString()</option>
+                    if (category == cat)
+                    {
+                        <option value="@cat.ToString()" selected>@cat.ToString()</option>
+                    } else
+                    {
+                        <option value="@cat.ToString()">@cat.ToString()</option>
+                    }
                 }
             </select>
 
             <label for="subcategory" class="sr-only">Sub-category</label>
             <select id="subcategory" name="subcategory" class="form-control" required>
-                <option disabled selected>No sub-category</option>
-                @foreach (var cat in Enum.GetValues(typeof(SubCategoriesType)))
+                @{
+                    var subcategory = ViewData["Sub-category"] as SubCategoriesType?;
+
+                    if (subcategory == null)
+                    {
+                        <option disabled selected>No sub-category</option>
+                    }
+                    else
+                    {
+                        <option>No sub-category</option>
+                    }
+                }
+
+                @foreach (SubCategoriesType subcat in Enum.GetValues(typeof(SubCategoriesType)))
                 {
-                    <option value="@cat.ToString()">@cat.ToString()</option>
+                    if (subcat == subcategory)
+                    {
+                        <option value="@subcat.ToString()" selected>@subcat.ToString()</option>
+                    }else
+                    {
+                        <option value="@subcat.ToString()">@subcat.ToString()</option>
+                    }
                 }
             </select>
 
