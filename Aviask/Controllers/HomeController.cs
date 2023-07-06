@@ -24,8 +24,14 @@ namespace Aviask.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //  We pass as viewdata the count of registered questions.
+            //  We pass the count of registered questions.
             ViewData["QuestionCount"] = await _questionRepository.GetAll().CountAsync();
+
+            //  If the user is authenticated, we also pass its statistics.
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewData["Statistics"] = await _getStatisticsAsync(_userManager.GetUserId(User)!);
+            }
 
             return View();
         }
@@ -92,6 +98,58 @@ namespace Aviask.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [NonAction]
+        private async Task<UserStatisticsResponse> _getStatisticsAsync(string userId)
+        {
+            var userRecordsQuery = _answerRecordsRepository.GetAll();
+            userRecordsQuery = userRecordsQuery.Where(r => r.UserId == userId);
+
+            //  Counts how much questions were answered since last 7 days
+            var now = DateTime.Now;
+            var lastWeekRecords = (await userRecordsQuery.ToListAsync()).Where(r => (now - r.Date).TotalDays < 7).Count();
+
+            //  Calculates lifetime answer correctness
+            int correctLifetime = await userRecordsQuery.Where(r => r.CorrectAnswer).CountAsync();
+            int failLifetime = await userRecordsQuery.Where(r => !r.CorrectAnswer).CountAsync();
+            float ratio;
+
+            if (failLifetime + correctLifetime != 0)
+            {
+                ratio = (float)correctLifetime / (failLifetime + correctLifetime);
+            }
+            else
+            {
+                ratio = 0;
+            }
+
+            //  Computes the 3 most answered subcategories
+            var mostAnsweredThemes = userRecordsQuery
+                .AsEnumerable()
+                .GroupBy(r => r.Question.SubCategory)
+                .Select(g => new StatisticsCategoryResponse(g.Key, g.Key.ToString(), g.Count()))
+                .OrderByDescending(g => g.AnswerCount)
+                .Take(3)
+                .ToList();
+
+            //  Computes the most correctly answered category
+            var mostCorrectlyTheme = userRecordsQuery
+                .AsEnumerable()
+                .Where(r => r.CorrectAnswer)
+                .GroupBy(r => r.Question.SubCategory)
+                .Select(g => new StatisticsCategoryResponse(g.Key, g.Key.ToString(), g.Count()))
+                .OrderByDescending(g => g.AnswerCount)
+                .FirstOrDefault();
+
+            return new UserStatisticsResponse(
+                lastWeekRecords,
+                correctLifetime,
+                failLifetime,
+                ratio,
+                mostCorrectlyTheme!,
+                mostAnsweredThemes
+            );
         }
     }
 }

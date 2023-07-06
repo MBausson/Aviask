@@ -1,4 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity;
+﻿@using Aviask.Models.ResponseModels;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Identity;
 @inject SignInManager<IdentityUser> SignInManager
 
 @{
@@ -53,9 +55,8 @@
         </div>
     } else
     {
-        @section Scripts {
-            <script src="~/js/index.js"></script>
-        }
+        var stats = ViewData["Statistics"] as UserStatisticsResponse;
+        var favoriteCategoriesEmojis = new string[] { "🔥", "🥈", "🥉" };
 
         <div class="flex flex-col gap-1">
             <header class="text-center mt-2">
@@ -73,8 +74,14 @@
                     </div>
 
                     <div class="flex flex-col gap-2 mb-2">
-                        <p class="card-text" id="week-count">TODO: afficher le nombre de question répondues dans la semaine</p>
-                        <p class="card-text" id="lifetime-ratio">TODO: afficher le ratio de question bonnes / mauvaises lifetime</p>
+                        <p>
+                            You answered <b>@stats.LastWeekRecordsCount</b> question(s) the <u>last 7 days</u>.
+                        </p>
+                        
+                        <p>
+                            Lifetime answer correctness : <b>@Math.Round(stats.RatioCorrectness * 100f)%</b>
+                            [ <span style="color: green;">@stats.CorrectLifetimeCount</span> / <span style="color: red;">@stats.FailLifetimeCount</span> ]
+                         </p>
                     </div>
                     
                     <div class="flex justify-between gap-2">
@@ -89,11 +96,40 @@
                         <h5 class="text-xl font-semibold mb-1">Favorite themes</h5>
                         <h6 class="text-gray-500 font-semibold">The categories you answered the most</h6>
 
-                        <!--TODO: make the request via CSHTML rather than typescript-->
-                        <ul id="list-favourite-themes" class="divide-y divide-gray-200 mt-4"></ul>
+                        @if (stats.MostAnsweredCategories.Count == 0)
+                        {
+                            <b>😴 You didn't answer any question for the moment.</b>
+                        } else
+                        {
+                            <ul class="mt-4">
+                                @* Iterates over user's most answered categories, displaying a link to it and the number of answers *@
+                                @for (var i = 0; i < stats.MostAnsweredCategories.Count; i++)
+                                {
+                                    var cat = stats.MostAnsweredCategories[i];
+
+                                    <li class="flex justify-between">
+                                        @* Category name as a link *@
+                                        <a class="underline" asp-controller="Questions" asp-action="Index" asp-route-subcategory="@cat.SubCategoryName">
+                                            @cat.SubCategoryName
+                                        </a>
+
+                                        @* Category answer *@
+                                        <span class="font-bold">
+                                            @favoriteCategoriesEmojis[i] @cat.AnswerCount
+                                        </span>
+                                    </li>
+                                }
+                            </ul>
+                        }
                     </div>
 
-                    <span id="most-correct-theme"></span>
+                    @if (stats.MostCorrectCategory != null)
+                    {
+                        <span>
+                            Category with the most correct answers : <u>@stats.MostCorrectCategory.SubCategoryName</u>
+                            (<b>@stats.MostCorrectCategory.AnswerCount</b> correct answers).
+                        </span>
+                    }
                 </section>
             </div>
         </div>
