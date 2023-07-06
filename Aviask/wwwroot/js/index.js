@@ -36,9 +36,9 @@ function updateUi(stats) {
     let favoriteThemeIndex = 0;
     stats.mostAnsweredCategories.forEach(function (cat) {
         const newListItem = document.createElement("li");
-        newListItem.classList.add("list-group-item");
-        newListItem.classList.add("fav-theme-container");
+        newListItem.classList.add("list-group-item", "flex", "justify-between");
         const aCategoryName = document.createElement("a");
+        aCategoryName.classList.add("underline");
         aCategoryName.textContent = cat.subCategoryName;
         aCategoryName.href = `/Questions?subcategory=${cat.subCategoryName}`;
         const spanAnswerCount = document.createElement("span");

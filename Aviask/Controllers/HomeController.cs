@@ -1,5 +1,4 @@
-﻿using Aviask.Data;
-using Aviask.Models;
+﻿using Aviask.Models;
 using Aviask.Models.ResponseModels;
 using Aviask.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -7,26 +6,26 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Aviask.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IAviaskRepository<AnswerRecords> _answerRecordsRepository;
+        private readonly IAviaskRepository<Question> _questionRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(IAviaskRepository<AnswerRecords> recordsRepository, UserManager<IdentityUser> userManager)
+        public HomeController(IAviaskRepository<AnswerRecords> recordsRepository, IAviaskRepository<Question> questionRepository,UserManager<IdentityUser> userManager)
         {
             _answerRecordsRepository = recordsRepository;
+            _questionRepository = questionRepository;
             _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
             //  We pass as viewdata the count of registered questions.
-            ViewData["QuestionCount"] = await _answerRecordsRepository.GetAll().CountAsync();
+            ViewData["QuestionCount"] = await _questionRepository.GetAll().CountAsync();
 
             return View();
         }

@@ -4,53 +4,56 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-5xl font-semibold my-4">@ViewData["Title"]</h1>
 
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="Username" />
-                <label asp-for="Input.UserName" ></label>
-                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+<div class="flex gap-4 sm:flex-wrap md:flex-nowrap">
+    <div class="md:w-[50%]">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="w-full flex flex-col justify-center">
+            <h2 class="text-3xl font-semibold">Create a new account</h2>
+
+            <hr class="border-[#c7c8c9] border-t border-b my-3" />
+            
+            <div asp-validation-summary="ModelOnly" class="text-[#dc3545]" role="alert"></div>
+
+            <div class="mb-4">
+                <input asp-for="Input.UserName" autocomplete="username" aria-required="true" placeholder="Username"
+                       class="w-full border border-gray-300 rounded-md px-5 py-4 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <span asp-validation-for="Input.UserName" class="text-[#dc3545]"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="on" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            <div class="mb-4">
+                <input asp-for="Input.Email" autocomplete="on" aria-required="true" placeholder="name@example.com"
+                       class="w-full border border-gray-300 rounded-md px-5 py-4 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <span asp-validation-for="Input.Email" class="text-[#dc3545]"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <div class="mb-4">
+                <input asp-for="Input.Password" autocomplete="new-password" aria-required="true" placeholder="password"
+                       class="w-full border border-gray-300 rounded-md px-5 py-4 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <span asp-validation-for="Input.Password" class="text-[#dc3545]"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            <div class="mb-4">
+                <input asp-for="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="password"
+                       class="w-full border border-gray-300 rounded-md px-5 py-4 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-[#dc3545]"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+
+            <button id="registerSubmit" type="submit" class="button button-primary">Register</button>
         </form>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-           <h3>User's advantage</h3>
 
-           <hr />
+    <section class="md:w-[50%]">
+       <h3 class="text-3xl font-semibold">User's advantage</h3>
 
-            <p style="font-size: 1.3rem;">
-                Having an account lets users access a <mark>wider range</mark> of questions (ATPL and other types of exams), as well as <mark>storing</mark> all their answers to questions.
-            </p>
-
-           <p style="font-size: 1.1rem;">
-               Furthermore, Logged-in users are offered tools to <mark>track</mark> their progress, allowing them to identify which theme they excel and which theme they struggle.
-           </p>
-
-        </section>
-    </div>
+       <hr class="border-[#c7c8c9] border-t border-b my-3" />
+    
+        <p class="text-2xl">
+            Having an account lets users access a <u>wider range</u> of questions (ATPL and other types of exams), as well as <u>storing</u> all their previous answers.
+        </p>
+    
+       <p class="text-xl mt-3">
+           Furthermore, logged-in users are offered tools to <u>track</u> their progress, allowing them to identify which theme they need to work more oné.
+       </p>
+    
+    </section>
 </div>
 
 @section Scripts {

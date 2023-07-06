@@ -4,39 +4,54 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Aviask</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Aviask.styles.css" asp-append-version="true" />
 
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                screens: {
+                    'sm': '576px',
+                    'md': '768px',
+                    'lg': '992px',
+                    'xl': '1200px',
+                    'xxl': '1400px',
+                },
+            }
+        }
+    </script>
 </head>
 <body>
 
     <header>
-        <nav class="navb">
-            <div class="navb-list">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Aviask</a>
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                <a class="nav-link text-dark" asp-controller="Questions" asp-action="Index">Bank of questions</a>
+        <nav class="flex justify-between border-b border-gray-500 border-b-1 items-baseline px-5 py-3">
+            <div class="flex flex-row gap-7 items-baseline">
+                <a class="whitespace-normal text-xl text-center break-words text-[#0060EE]" asp-area="" asp-controller="Home" asp-action="Index">Aviask</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a asp-controller="Questions" asp-action="Index">Bank of questions</a>
             </div>
+
             <partial name="_LoginPartial" />
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="flex min-h-screen">
+        <main role="main" class="flex-grow pb-3 xl:max-w-[1200px] lg:max-w-[960px] md:max-w-[720px] sm:max-w-[540px] ml-auto mr-auto">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Aviask - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-t border-gray-300 sticky bottom-0 w-full whitespace-nowrap leading-60 bg-white">
+        <div class="container mx-auto p-4 text-gray-500 hover:text-gray-700">
+            &copy; 2023 - Aviask - 
+            <a asp-area="" asp-controller="Home" asp-action="Privacy" >Privacy</a>
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

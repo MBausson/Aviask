@@ -1,17 +1,17 @@
 ﻿@model IEnumerable<Aviask.Models.AnswerRecords>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Your answers records";
 }
 
-<main class="page-container">
-    <h1>Your answers</h1>
+<main class="flex flex-col gap-4">
+    <h1 class="text-4xl font-semibold mt-4">Your answers</h1>
 
-    <hr />
+    <hr class="border-[#c7c8c9] border-t border-b my-3"  />
 
-    <table class="table">
+    <table class="border-separate border-spacing-y-2 ">
         <thead>
-            <tr>
+            <tr class="[&>*]:p-3 [&>*]:border-b [&>*]:border-black">
                 <th>
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
@@ -38,7 +38,7 @@
             {
                 string bgColor = item.CorrectAnswer ? "rgba(0, 255, 0, 0.15)" : "rgba(255, 0, 0, 0.15)";
 
-                <tr style="background-color: @bgColor;">
+                <tr style="background: @bgColor" class="[&>*]:p-2 [&>*]:border-b">
                     <td>
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>   
@@ -67,7 +67,8 @@
                         }
                     </td>
                     <td>
-                        <a role="button" asp-controller="Questions" asp-action="Details" asp-route-id="@item.QuestionId">Question</a>
+                        <a role="button" asp-controller="Questions" asp-action="Details" asp-route-id="@item.QuestionId"
+                           class="underline text-blue-500">Question</a>
                     </td>
                 </tr>
             }

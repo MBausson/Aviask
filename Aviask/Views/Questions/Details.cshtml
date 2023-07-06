@@ -4,32 +4,32 @@
     ViewData["Title"] = "Question " + Model.Title;
 }
 
-<div class="details-container">
+<div class="flex flex-col gap-6 mt-6">
 
     <div>
-        <h1 class="d-flex justify-content-between align-items-baseline">
+        <h1 class="flex justify-between items-baseline">
             <!-- Left -->
-            <span>
+            <span class="text-4xl mb-4 font-semibold">
                 #@Model.Id : @Model.Title
             </span>
             <!-- Right -->
-            <span class="h6">
-                by <span class="text-decoration-underline">@Model.Publisher.UserName</span>
+            <span class="text-m font-semibold">
+                by <span class="underline">@Model.Publisher.UserName</span>
             </span>
         </h1>
 
-        <hr />
+        <hr class="border-[#c7c8c9] border-t border-b my-3" />
 
-        <a asp-action="Index" asp-controller="Questions" 
-            asp-route-category="@Model.Category" 
+        <a asp-action="Index" asp-controller="Questions"
+            asp-route-category="@Model.Category"
             asp-route-subcategory="@Model.SubCategory"
-           class="link-dark">Category : @Model.Category - @Model.SubCategory</a>
+           class="underline">Category : @Model.Category - @Model.SubCategory</a>
 
-        <h3 class="text-center">@Model.Description</h3>
+        <h3 class="text-center text-3xl font-semibold">@Model.Description</h3>
 
         <br />
-    
-        <div class="answer-container">
+
+        <div class="flex flex-col gap-4">
             @{
                 var answersEnumerator = Model.QuestionAnswers.GetAnswers();
 
@@ -40,7 +40,10 @@
 
             @foreach(var answer in answers)
             {
-                <button class="qst-answer">
+                <button class="qst-answer 
+                               w-full px-8 py-4 flex justify-between
+                               border-2 border-[grey] border-solid rounded-[4px]
+                               hover:scale-[1.05] transition ease duration-150">
                     @answer
                     <span class="qst-explication"></span>
                 </button>
@@ -48,21 +51,21 @@
 
             @if (Model.IllustrationPath != null)
             {
-                <span class="lead text-center text-decoration-underline">Question's illustration (click to expand)</span>
+                <span class="text-xl font-light leading-relaxed text-center underline">Question's illustration (click to expand)</span>
 
-                <a href="/@Model.IllustrationPath" target="_blank" id="qst-illustration" class="text-center">
-                    <img src="/@Model.IllustrationPath" alt="Question's illustration" />
+                <a href="/@Model.IllustrationPath" target="_blank" class="text-center flex w-full justify-center">
+                    <img src="/@Model.IllustrationPath" alt="Question's illustration" class="max-w-[50%] max-h-[550px] outline-dashed outline-[#666] outline-[3px] outline-offset-[4px] rounded-md" />
                 </a>
             }
         </div>
-    
+
     </div>
 
     <div>
-        <cite style="display: block;" class="text-muted">Source: @(Model.Source ?? "Unknown")</cite>
+        <cite class="block text-[#666]">Source: @(Model.Source ?? "Unknown")</cite>
     </div>
 
-    <div class="question-actions">
+    <div class="flex gap-4 justify-center">
         <a asp-action="Index" role="button" class="button button-primary">
             <i class="fa fa-home"></i>
             List of questions
@@ -94,7 +97,8 @@
                 if (!response.ok) return;
 
                 let content = await response.json();
-                
+
+                @* These animations can be found in site.css *@
                 if (content.isCorrect){
                     answers[i].style.animation = "CorrectAnimation 0.35s forwards";
                 } else {
@@ -107,6 +111,6 @@
                 answered = true;
             });
         }
-       
+
     </script>
 }

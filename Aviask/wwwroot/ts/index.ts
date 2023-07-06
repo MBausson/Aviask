@@ -57,10 +57,10 @@ function updateUi(stats: UserStatistics): void {
 
     stats.mostAnsweredCategories.forEach(function (cat: StatisticsCategory): void {
         const newListItem: HTMLLIElement = document.createElement("li");
-        newListItem.classList.add("list-group-item");
-        newListItem.classList.add("fav-theme-container");
+        newListItem.classList.add("list-group-item", "flex", "justify-between");
 
         const aCategoryName: HTMLAnchorElement = document.createElement("a");
+        aCategoryName.classList.add("underline");
         aCategoryName.textContent = cat.subCategoryName;
         aCategoryName.href = `/Questions?subcategory=${cat.subCategoryName}`;
 

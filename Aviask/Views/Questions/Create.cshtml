@@ -9,101 +9,115 @@
     TODO: when submitting, check that the correct answer is effectevely available
 *@
 
-<h1>Create a question</h1>
+<h1 class="mt-6 text-4xl font-semibold">Create a question</h1>
 
-<hr />
+<hr class="border-[#c7c8c9] border-t border-b my-3" />
 
-<div class="row">
-    <form asp-action="Create" id="questionForm" enctype="multipart/form-data">
-        <div class="d-flex flex-column gap-3">
+<div class="flex flex-wrap mt-4">
+    <form asp-action="Create" id="questionForm" enctype="multipart/form-data" class="w-full">
+        <div class="flex flex-col gap-6">
             
             <!-- Title, visibility, source -->
-            <div class="d-flex justify-content-between">
-                <div>
-                    <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" placeholder="Question's title" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
+            <div class="flex justify-between">
+                <div class="flex flex-col">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" 
+                           class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Question's title" />
+                    <span asp-validation-for="Title" class="text-[#dc3545]"></span>
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="Visibility" class="control-label"></label>
-                    <select asp-for="Visibility" asp-items="Html.GetEnumSelectList<Visibility>()" class="form-select">
+                <div class="flex flex-col">
+                    <label asp-for="Visibility"></label>
+                    <select asp-for="Visibility" asp-items="Html.GetEnumSelectList<Visibility>()" 
+                            class="w-full px-3 py-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-md border-b-2 border-b-[rgba(0,0,0,0.25)] appearance-none">
                         <option value="1" selected disabled hidden>Choose a visibility</option>
                     </select>
-                    <span asp-validation-for="Visibility" class="text-danger"></span>
+                    <span asp-validation-for="Visibility" class="text-[#dc3545]"></span>
                 </div>
 
-                <div>
-                    <label asp-for="Source" class="control-label"></label>
-                    <input asp-for="Source" class="form-control" placeholder="Source of the question" />
+                <div class="flex flex-col">
+                    <label asp-for="Source"></label>
+                    <input asp-for="Source" class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Source of the question" />
                 </div>
             </div>
 
             <!-- Description -->
-            <div style="max-width: 60%">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" placeholder="What the question is about" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="flex flex-col justify-between max-w-[60%]">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="What the question is about" />
+                <span asp-validation-for="Description" class="text-[#dc3545]"></span>
             </div>
 
             <!-- Category, Sub-Category -->
-            <div class="d-flex gap-3">
+            <div class="flex gap-6">
                 <div>
-                    <label asp-for="Category" class="control-label"></label>
-                    <select asp-for="Category" asp-items="Html.GetEnumSelectList<MainCategoryType>()" class="form-select"></select>
-                    <span asp-validation-for="Category" class="text-danger"></span>
+                    <label asp-for="Category"></label>
+                    <select asp-for="Category" asp-items="Html.GetEnumSelectList<MainCategoryType>()"
+                            class="w-full pl-3 py-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-md border-b-2 border-b-[rgba(0,0,0,0.25)] appearance-none"></select>
+                    <span asp-validation-for="Category" class="text-[#dc3545]"></span>
                 </div>
                 <div>
-                    <label asp-for="SubCategory" class="control-label"></label>
-                    <select asp-for="SubCategory" asp-items="Html.GetEnumSelectList<SubCategoriesType>()" class="form-select"></select>
-                    <span asp-validation-for="SubCategory" class="text-danger"></span>
+                    <label asp-for="SubCategory"></label>
+                    <select asp-for="SubCategory" asp-items="Html.GetEnumSelectList<SubCategoriesType>()"
+                            class="w-full pl-3 py-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-md border-b-2 border-b-[rgba(0,0,0,0.25)] appearance-none"></select>
+                    <span asp-validation-for="SubCategory" class="text-[#dc3545]"></span>
                 </div>
             </div>
 
             <!-- Answers -->
-            <div class="form-answers-group">
-                <div class="form-group">
-                    <label asp-for="QuestionAnswers.Answer1" class="control-label"></label>
-                    <input asp-for="QuestionAnswers.Answer1" class="form-control" />
-                    <span asp-validation-for="QuestionAnswers.Answer1" class="text-danger"></span>
+            <div class="grid grid-cols-2 grid-rows-2 gap-4">
+                <div class="flex flex-col">
+                    <label asp-for="QuestionAnswers.Answer1"></label>
+                    <input asp-for="QuestionAnswers.Answer1" 
+                           class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <span asp-validation-for="QuestionAnswers.Answer1" class="text-[#dc3545]"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="QuestionAnswers.Answer2" class="control-label"></label>
-                    <input asp-for="QuestionAnswers.Answer2" class="form-control" />
-                    <span asp-validation-for="QuestionAnswers.Answer2" class="text-danger"></span>
+                <div class="flex flex-col">
+                    <label asp-for="QuestionAnswers.Answer2"></label>
+                    <input asp-for="QuestionAnswers.Answer2" 
+                           class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <span asp-validation-for="QuestionAnswers.Answer2" class="text-[#dc3545]"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="QuestionAnswers.Answer3" class="control-label"></label>
-                    <input asp-for="QuestionAnswers.Answer3" class="form-control" placeholder="Optional" />
-                    <span asp-validation-for="QuestionAnswers.Answer3" class="text-danger"></span>
+                <!--  TODO: insead of having the last 2 optional fields, we should have a button '+ answer'  -->
+                <div class="flex flex-col">
+                    <label asp-for="QuestionAnswers.Answer3"></label>
+                    <input asp-for="QuestionAnswers.Answer3" 
+                           class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Optional" />
                 </div>
-                <div class="form-group">
-                    <label asp-for="QuestionAnswers.Answer4" class="control-label"></label>
-                    <input asp-for="QuestionAnswers.Answer4" class="form-control" placeholder="Optional" />
-                    <span asp-validation-for="QuestionAnswers.Answer4" class="text-danger"></span>
+                <div class="flex flex-col">
+                    <label asp-for="QuestionAnswers.Answer4"></label>
+                    <input asp-for="QuestionAnswers.Answer4" 
+                           class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Optional" />
                 </div>
             </div>
 
             <!-- Correct answer -->
-            <div class="form-group">
-                <label asp-for="QuestionAnswers.CorrectAnswer" class="control-label"></label>
-                <input asp-for="QuestionAnswers.CorrectAnswer" class="form-control" />
-                <span asp-validation-for="QuestionAnswers.CorrectAnswer" class="text-danger"></span>
+            <div class="flex flex-col">
+                <label asp-for="QuestionAnswers.CorrectAnswer"></label>
+                <input asp-for="QuestionAnswers.CorrectAnswer" 
+                       class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <span asp-validation-for="QuestionAnswers.CorrectAnswer" class="text-[#dc3545]"></span>
             </div>
             
             <!-- Explications -->
-            <div class="form-group">
+            <div class="flex flex-col">
                 <label asp-for="QuestionAnswers.Explications" class="control-label"></label>
-                <input asp-for="QuestionAnswers.Explications" class="form-control" />
+                <input asp-for="QuestionAnswers.Explications" 
+                       class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
             </div>
 
             <!-- Illustration -->
-            <div class="form-group">
-                <label asp-for="IllustrationPath" class="control-label"></label>
-                <input name="illustrationFile" class="form-control illustration-file" type="file" />
+            <div class="flex flex-col">
+                <label asp-for="IllustrationPath"></label>
+                <input name="illustrationFile" 
+                       class="m-0 px-3 py-[0.45rem] w-full min-w-0 flex-auto rounded border border-solid bg-clip-padding 
+                              text-base font-normal transition duration-300 ease-in-out
+                              border-gray-300 text-black hover:cursor-pointer file:hover:cursor-pointer
+                              file:-mx-3 file:-my-[0.45rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:px-3 
+                              file:py-[0.45rem] file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] focus:border-primary focus:shadow-te-primary" illustration-file" type="file" />
             </div>
 
-            <div class="d-flex gap-3 justify-content-center">
+            <div class="flex gap-6 justify-center">
                 <button class="button button-primary" type="submit">Create</button>
                 <a roles="button" asp-action="Index" asp-controller="Questions" class="button button-secondary">Question list</a>
             </div>

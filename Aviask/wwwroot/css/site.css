@@ -34,7 +34,7 @@ body {
   margin-bottom: 60px;
 }
 
-.qst-answer {
+/*.qst-answer {
     all: unset;
     background: white;
     padding: 1em 2.5em;
@@ -50,7 +50,7 @@ body {
 
 .qst-answer:hover {
     transform: scale(1.05);
-}
+}*/
 
 .answer-container {
     display: flex;
@@ -78,7 +78,7 @@ body {
     gap: 3em;
 }
 
-.question-actions {
+.-actions {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -111,6 +111,7 @@ body {
 
 .button {
     all: unset;
+    display: inline-block;
     padding: 6px 12px;
     border: solid 3px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
@@ -148,15 +149,15 @@ a.button:hover {
 }
 
 /*  Primary */
-.button-primary {
+a.button-primary, button.button-primary {
     border-color: rgba(255, 255, 255, 0.1);
     background: var(--aprimary-color);
     color: white;
 }
 
-    .button-primary:hover {
-        background: var(--aprimary-darker);
-    }
+.button-primary:hover {
+    background: var(--aprimary-darker);
+}
 
 /*  Secondary   */
 .button-secondary {
@@ -178,7 +179,7 @@ a.button:hover {
         background-color: var(--important-darker);
     }
 
-/*  Navbar  */
+/*  Navbartext-align: center;  */
 .navb {
     border-bottom: solid grey 1px;
     margin-bottom: 5px;

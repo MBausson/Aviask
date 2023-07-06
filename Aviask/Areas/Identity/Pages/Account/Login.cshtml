@@ -5,43 +5,38 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-auto">
-        <section>
-            <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email" class="form-label">Email</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password" class="form-label">Password</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div class="mt-3" style="display: flex; justify-content: space-between;">
-                    <p>
-                        <a role="button" class="button button-secondary" id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a role="button" class="button button-primary" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                </div>
-            </form>
-        </section>
+<h1 class="text-5xl font-semibold my-4">@ViewData["Title"]</h1>
+
+<div class="flex gap-4 sm:flex-wrap md:flex-nowrap">
+    <div class="md:w-[50%]">
+        <form id="account" method="post" class="w-full flex flex-col justify-center">
+            <h2 class="text-3xl font-semibold">Use a local account to log in.</h2>
+            <hr class="border-[#c7c8c9] border-t border-b my-3" />
+
+            <div asp-validation-summary="ModelOnly" class="text-[#dc3545]" role="alert"></div>
+            
+            <div class="mb-4">
+                <input asp-for="Input.Email" autocomplete="username" aria-required="true" placeholder="name@example.com" 
+                       class="w-full border border-gray-300 rounded-md px-5 py-4 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <span asp-validation-for="Input.Email" class="text-[#dc3545]"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" autocomplete="current-password" aria-required="true" placeholder="password"
+                       class="w-full border border-gray-300 rounded-md px-5 py-4 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <span asp-validation-for="Input.Password" class="text-[#dc3545]"></span>
+            </div>
+            <div class="checkbox mb-3">
+                <label asp-for="Input.RememberMe">
+                    <input asp-for="Input.RememberMe" class="bg-white border border-[rgba(0,0,0,.25)] rounded-[.25em] w-4 h-4 checked:accent-[var(--aprimary-color)]" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+            <div class="mt-3" style="display: flex; justify-content: space-between;">
+                <a role="button" class="button button-important" asp-page="./ForgotPassword">Forgot your password?</a>
+                <button type="submit" class="button button-primary">Log in</button>
+                <a role="button" class="button button-secondary" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+            </div>
+        </form>
     </div>
 </div>
 
