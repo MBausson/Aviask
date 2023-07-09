@@ -13,11 +13,11 @@ namespace Aviask.Controllers
     public class QuestionsController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IAviaskRepository<Question> _questionRepository;
-        private readonly IAviaskRepository<AnswerRecords> _answerRecordsRepository;
+        private readonly IAviaskRepository<Question, int> _questionRepository;
+        private readonly IAviaskRepository<AnswerRecords, int> _answerRecordsRepository;
         private static readonly int MaxPageLength = 15;
 
-        public QuestionsController(UserManager<IdentityUser> userManager, IAviaskRepository<AnswerRecords> recordsRepository, IAviaskRepository<Question> questionRepository)
+        public QuestionsController(UserManager<IdentityUser> userManager, IAviaskRepository<AnswerRecords, int> recordsRepository, IAviaskRepository<Question, int> questionRepository)
         {
             _userManager = userManager;
             _questionRepository = questionRepository;

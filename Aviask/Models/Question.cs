@@ -12,9 +12,9 @@ public enum Visibility
     Private //  Makes a question available only to certain people : To be implemented or revised TODO
 }
 
-public class Question : BaseModel
+public class Question
 {
-    public new int Id { get; set; }
+    public int Id { get; set; }
 
     [Required] public string Title { get; set; }
     [Required] public string Description { get; set; }

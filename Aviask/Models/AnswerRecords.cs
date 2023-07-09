@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Aviask.Models
 {
-    public class AnswerRecords : BaseModel
+    public class AnswerRecords 
     {
-        public new int Id { get; set; }
+        public int Id { get; set; }
         public string UserId { get; set; }
         [DataType(DataType.Date)] public DateTime Date { get; set; }
 

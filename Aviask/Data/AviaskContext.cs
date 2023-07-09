@@ -15,6 +15,7 @@ namespace Aviask.Data
         public DbSet<Question> Question { get; set; } = default!;
         public DbSet<QuestionAnswers> QuestionAnswers { get; set; } = default!;
         public DbSet<AnswerRecords> AnswerRecords { get; set; } = default!;
+        public DbSet<IdentityUser> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +26,7 @@ namespace Aviask.Data
             modelBuilder.Entity<AnswerRecords>().ToTable("AnswerRecords")
                 .Property(e => e.Date)
                 .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<IdentityUser>().ToTable("AspNetUsers");
         }
     }
 }

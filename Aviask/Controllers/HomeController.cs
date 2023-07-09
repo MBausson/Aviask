@@ -10,11 +10,11 @@ namespace Aviask.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IAviaskRepository<AnswerRecords> _answerRecordsRepository;
-        private readonly IAviaskRepository<Question> _questionRepository;
+        private readonly IAviaskRepository<AnswerRecords, int> _answerRecordsRepository;
+        private readonly IAviaskRepository<Question, int> _questionRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(IAviaskRepository<AnswerRecords> recordsRepository, IAviaskRepository<Question> questionRepository,UserManager<IdentityUser> userManager)
+        public HomeController(IAviaskRepository<AnswerRecords, int> recordsRepository, IAviaskRepository<Question, int> questionRepository,UserManager<IdentityUser> userManager)
         {
             _answerRecordsRepository = recordsRepository;
             _questionRepository = questionRepository;

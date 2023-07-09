@@ -1,5 +1,5 @@
-﻿@page
-@model RegisterModel
+﻿@model RegisterInputModel;
+
 @{
     ViewData["Title"] = "Register";
 }
@@ -8,32 +8,35 @@
 
 <div class="flex gap-4 sm:flex-wrap md:flex-nowrap">
     <div class="md:w-[50%]">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="w-full flex flex-col justify-center">
+        <form method="post" class="w-full flex flex-col justify-center">
             <h2 class="text-3xl font-semibold">Create a new account</h2>
 
             <hr class="border-[#c7c8c9] border-t border-b my-3" />
-            
+
             <div asp-validation-summary="ModelOnly" class="text-[#dc3545]" role="alert"></div>
 
             <div class="mb-4">
-                <input asp-for="Input.UserName" autocomplete="username" aria-required="true" placeholder="Username"
+                <input asp-for="UserName" autocomplete="username" aria-required="true" placeholder="Username"
                        class="w-full border border-gray-300 rounded-md px-5 py-4 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                <span asp-validation-for="Input.UserName" class="text-[#dc3545]"></span>
+                <span asp-validation-for="UserName" class="text-[#dc3545]"></span>
             </div>
+
             <div class="mb-4">
-                <input asp-for="Input.Email" autocomplete="on" aria-required="true" placeholder="name@example.com"
+                <input asp-for="Email" autocomplete="on" aria-required="true" placeholder="name@example.com"
                        class="w-full border border-gray-300 rounded-md px-5 py-4 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                <span asp-validation-for="Input.Email" class="text-[#dc3545]"></span>
+                <span asp-validation-for="Email" class="text-[#dc3545]"></span>
             </div>
+
             <div class="mb-4">
-                <input asp-for="Input.Password" autocomplete="new-password" aria-required="true" placeholder="password"
+                <input asp-for="Password" autocomplete="new-password" aria-required="true" placeholder="Your password"
                        class="w-full border border-gray-300 rounded-md px-5 py-4 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                <span asp-validation-for="Input.Password" class="text-[#dc3545]"></span>
+                <span asp-validation-for="Password" class="text-[#dc3545]"></span>
             </div>
+
             <div class="mb-4">
-                <input asp-for="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="password"
+                <input asp-for="ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="Re-type your password"
                        class="w-full border border-gray-300 rounded-md px-5 py-4 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-[#dc3545]"></span>
+                <span asp-validation-for="ConfirmPassword" class="text-[#dc3545]"></span>
             </div>
 
             <button id="registerSubmit" type="submit" class="button button-primary">Register</button>
@@ -41,18 +44,18 @@
     </div>
 
     <section class="md:w-[50%]">
-       <h3 class="text-3xl font-semibold">User's advantage</h3>
+        <h3 class="text-3xl font-semibold">User's advantage</h3>
 
-       <hr class="border-[#c7c8c9] border-t border-b my-3" />
-    
+        <hr class="border-[#c7c8c9] border-t border-b my-3" />
+
         <p class="text-2xl">
             Having an account lets users access a <u>wider range</u> of questions (ATPL and other types of exams), as well as <u>storing</u> all their previous answers.
         </p>
-    
-       <p class="text-xl mt-3">
-           Furthermore, logged-in users are offered tools to <u>track</u> their progress, allowing them to identify which theme they need to work more oné.
-       </p>
-    
+
+        <p class="text-xl mt-3">
+            Furthermore, logged-in users are offered tools to <u>track</u> their progress, allowing them to identify which theme they need to work more oné.
+        </p>
+
     </section>
 </div>
 

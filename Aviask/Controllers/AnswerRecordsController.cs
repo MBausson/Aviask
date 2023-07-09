@@ -16,10 +16,10 @@ namespace Aviask.Controllers
     [Authorize]
     public class AnswerRecordsController : Controller
     {
-        private readonly IAviaskRepository<AnswerRecords> _answerRecordsRepository;
+        private readonly IAviaskRepository<AnswerRecords, int> _answerRecordsRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public AnswerRecordsController(IAviaskRepository<AnswerRecords> answerRecordsRepository, UserManager<IdentityUser> userManager)
+        public AnswerRecordsController(IAviaskRepository<AnswerRecords, int> answerRecordsRepository, UserManager<IdentityUser> userManager)
         {
             _answerRecordsRepository = answerRecordsRepository;
             _userManager = userManager;

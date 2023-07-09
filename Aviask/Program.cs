@@ -2,6 +2,7 @@ using Aviask.Data;
 using Aviask.Models;
 using Aviask.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.WebEncoders;
 using System.Text.Encodings.Web;
@@ -15,8 +16,9 @@ builder.Services.AddDbContext<AviaskContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<IAviaskRepository<Question>, QuestionRepository>();
-builder.Services.AddScoped<IAviaskRepository<AnswerRecords>, AnswerRecordsRepository>();
+builder.Services.AddScoped<IAviaskRepository<Question, int>, QuestionRepository>();
+builder.Services.AddScoped<IAviaskRepository<AnswerRecords, int>, AnswerRecordsRepository>();
+builder.Services.AddScoped<IAviaskRepository<IdentityUser, string>, UserRepository>();
 builder.Services.AddScoped<AviaskContext>();
 
 /*  Identity    */
@@ -39,6 +41,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 var app = builder.Build();
 
 app.UseAuthentication();
+app.UseStatusCodePagesWithReExecute("/Error/{0}");  
 
 //  Roles
 using (var serviceScope = app.Services.CreateScope())

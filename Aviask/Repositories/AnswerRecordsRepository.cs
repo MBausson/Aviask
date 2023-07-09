@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Aviask.Repositories
 {
-    public class AnswerRecordsRepository : IAviaskRepository<AnswerRecords>
+    public class AnswerRecordsRepository : IAviaskRepository<AnswerRecords, int>
     {
         private readonly AviaskContext _context;
 

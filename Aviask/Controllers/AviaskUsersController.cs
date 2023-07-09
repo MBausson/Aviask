@@ -21,7 +21,7 @@ namespace Aviask.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users.Take(50).ToListAsync();
             var userViewModels = new List<UserViewModel>();
 
             foreach (var user in users)

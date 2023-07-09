@@ -40,16 +40,13 @@
 
                 <p class="text-2xl mt-9 text-center">
                     Don't wait and 
-                    <a class="text-3xl text-blue-600 underline" asp-area="Identity" asp-page="/Account/Register">register</a>
+                    <a class="text-3xl text-blue-600 underline" asp-controller="Identity" asp-action="Register">register</a>
                         to have a complete access to our website !
                 </p>
 
                 <div class="flex gap-4 justify-center mt-4">
-                    <a role="button" class="button button-primary" id="register"
-                   asp-area="Identity" asp-page="/Account/Register">Register</a>
-
-                    <a role="button" class="button button-secondary" id="login"
-                   asp-area="Identity" asp-page="/Account/Login">Sign in</a>
+                    <a role="button" class="button button-primary" asp-controller="Identity" asp-action="Register">Register</a>
+                    <a role="button" class="button button-secondary" asp-controller="Identity" asp-action="Login">Log in</a>
                 </div>
             </section>
         </div>

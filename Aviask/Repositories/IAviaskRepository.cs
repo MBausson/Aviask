@@ -1,8 +1,9 @@
 ﻿using Aviask.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Aviask.Repositories
 {
-    public interface IAviaskRepository<T> where T : BaseModel
+    public interface IAviaskRepository<T, U> 
     {
         public IQueryable<T> GetAll();
         public Task CreateAsync(T obj);
@@ -10,10 +11,10 @@ namespace Aviask.Repositories
         public Task UpdateAsync(T obj);
 
         public Task DeleteAsync(T obj);
-        public Task DeleteFromIdAsync(int id);
+        public Task DeleteFromIdAsync(U id);
 
-        public Task<T?> GetByIdAsync(int id);
+        public Task<T?> GetByIdAsync(U id);
 
-        public Task<bool> ExistsByIdAsync(int id);
+        public Task<bool> ExistsByIdAsync(U id);
     }
 }
