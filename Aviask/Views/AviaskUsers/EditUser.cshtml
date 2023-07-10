@@ -1,0 +1,52 @@
+﻿@model UserViewModel
+
+@{
+    ViewData["Title"] = $"Editing {Model.UserName}";
+}
+
+<h1 class="text-4xl font-semibold my-6">@ViewData["Title"]</h1>
+
+<hr class="border-[#c7c8c9] border-t border-b my-3" />
+
+<form asp-action="EditUser" enctype="multipart/form-data" class="w-full flex flex-col gap-4">
+    <div class="flex flex-col">
+        <label asp-for="Id"></label>
+        <input asp-for="Id"
+               class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 read-only:bg-[#efefef] read-only:focus:ring-0"
+               readonly />
+    </div>
+
+    <div class="flex flex-col">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" 
+               class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 read-only:bg-[#efefef] read-only:focus:ring-0"
+               readonly />
+    </div>
+
+    <div class="flex flex-col">
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName"
+               class="border border-gray-300 rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+        <span asp-validation-for="UserName" class="text-[#dc3545]"></span>
+    </div>
+
+    <div class="flex flex-col gap-4">
+        <h3 class="text-2xl font-semibold underline">Roles</h3>
+
+        <div class="flex flex-wrap gap-4">
+            @foreach (var role in UserViewModel.AvailableRoles)
+            {
+                <div class="flex gap-1 items-center">
+                    <input type="checkbox" name="Roles" value="@role" @(Model.Roles.Contains(role) ? "checked" : "")
+                           class="bg-white border border-[rgba(0,0,0,.25)] rounded-[.25em] w-4 h-4 checked:accent-[var(--primary-color)]" />
+                    <label class="capitalize">@role</label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="flex justify-center gap-2 mt-4">
+        <a role="button" asp-action="Index" class="button button-primary">Back to the list</a>
+        <button class="button button-secondary">Edit</button>
+    </div>
+</form>

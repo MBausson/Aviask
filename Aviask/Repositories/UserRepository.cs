@@ -60,7 +60,7 @@ namespace Aviask.Repositories
 
         public async Task UpdateAsync(IdentityUser obj)
         {
-            _context.Update(obj);
+            _context.User.Update(obj);
 
             await _context.SaveChangesAsync();
         }

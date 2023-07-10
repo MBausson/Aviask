@@ -13,18 +13,18 @@
 <div>
     <section class="flex flex-col gap-2 mb-4">
         <div>
-            <span class="text-xl underline font-medium">@Html.DisplayNameFor(model => model.User.Id)</span> : 
-            <span class="text-lg cursor-pointer">@Html.DisplayFor(model => model.User.Id)</span>
+            <span class="text-xl underline font-medium">@Html.DisplayNameFor(model => model.Id)</span> : 
+            <span class="text-lg cursor-pointer">@Html.DisplayFor(model => model.Id)</span>
         </div>
 
         <div>
-            <span class="text-xl underline font-medium">@Html.DisplayNameFor(model => model.User.UserName)</span> :
-            <span class="text-lg cursor-pointer">@Html.DisplayFor(model => model.User.UserName)</span>
+            <span class="text-xl underline font-medium">@Html.DisplayNameFor(model => model.UserName)</span> :
+            <span class="text-lg cursor-pointer">@Html.DisplayFor(model => model.UserName)</span>
         </div>
 
         <div>
-            <span class="text-xl underline font-medium">@Html.DisplayNameFor(model => model.User.Email)</span> : 
-            <span class="text-lg cursor-pointer">@Html.DisplayFor(model => model.User.Email)</span>
+            <span class="text-xl underline font-medium">@Html.DisplayNameFor(model => model.Email)</span> : 
+            <span class="text-lg cursor-pointer">@Html.DisplayFor(model => model.Email)</span>
         </div>
 
         <div>
@@ -37,35 +37,8 @@
             </span>
         </div>
     </section>
-    @*<dl>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.Id)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.Email)
-        </dd>
-
-        <dt>
-            Roles
-        </dt>
-        <dd>
-            <ul>
-                @foreach (var role in Model.Roles)
-                {
-                    <li><u>@role</u></li>
-                }
-            </ul>
-        </dd>
-    </dl>*@
-
-    <form asp-action="Delete" asp-route-userid="@Model.User.Id" method="post">
+    
+    <form asp-action="Delete" asp-route-userid="@Model.Id" method="post">
         <a class="button button-primary" asp-action="Index">Back to list</a>
         <button class="button button-important">
             <i class="fa fa-trash"></i>

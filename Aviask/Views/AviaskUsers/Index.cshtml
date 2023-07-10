@@ -12,13 +12,13 @@
     <thead class="border-b-1 border-b border-black border-spacing-y-4">
         <tr class="[&>*]:p-3 [&>*]:text-xl [&>*]:font-medium">
             <th>
-                @Html.DisplayNameFor(m => m.User.Id)
+                @Html.DisplayNameFor(m => m.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.User.UserName)
+                @Html.DisplayNameFor(m => m.UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.User.Email)
+                @Html.DisplayNameFor(m => m.Email)
             </th>
             <th>
                 Roles
@@ -33,13 +33,13 @@
         {
             <tr class="[&>*]:p-2 border-b">
                 <td>
-                    @Html.DisplayFor(m => user.User.Id)
+                    @Html.DisplayFor(m => user.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => user.User.UserName)
+                    @Html.DisplayFor(m => user.UserName)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => user.User.Email)
+                    @Html.DisplayFor(m => user.Email)
                 </td>
                 <td>
                     @{
@@ -51,8 +51,9 @@
                         </ul>
                     }
                 </td>
-                <td>
-                    <form asp-action="DeleteUser" asp-route-userid="@user.User.Id">
+                <td class="flex gap-1">
+                    <a asp-action="EditUser" asp-controller="AviaskUsers" class="button button-secondary" asp-route-userid="@user.Id">Edit</a>
+                    <form asp-action="DeleteUser" asp-route-userid="@user.Id">
                         <button class="button button-important">
                             <i class="fa fa-trash"></i>
                             Delete user

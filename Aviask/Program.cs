@@ -49,9 +49,7 @@ using (var serviceScope = app.Services.CreateScope())
     var serviceProvider = app.Services.GetRequiredService<IServiceProvider>();
     var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    var roles = new[] { "user", "manager", "admin" };
-
-    foreach (var role in roles)
+    foreach (var role in UserViewModel.AvailableRoles)
     {
         if (!await roleManager.RoleExistsAsync(role))
         {

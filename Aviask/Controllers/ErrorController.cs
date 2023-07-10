@@ -12,7 +12,7 @@ namespace Aviask.Controllers
                 return View("Error404");
             }
 
-            return RedirectToRoute("/");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
