@@ -41,7 +41,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 var app = builder.Build();
 
 app.UseAuthentication();
-app.UseStatusCodePagesWithReExecute("/Error/{0}");  
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 //  Roles
 using (var serviceScope = app.Services.CreateScope())

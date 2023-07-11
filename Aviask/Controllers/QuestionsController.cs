@@ -155,7 +155,7 @@ namespace Aviask.Controllers
         }
 
         // GET: Questions/Create
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,manager")]
         public IActionResult Create()
         {
             return View();
@@ -166,7 +166,7 @@ namespace Aviask.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,manager")]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,Visibility,Category,Source,SubCategory,QuestionAnswers,Publisher")] Question question, IFormFile? illustrationFile)
         {
             if (ModelState.IsValid)
@@ -210,7 +210,7 @@ namespace Aviask.Controllers
         }
 
         // GET: Questions/Edit/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,manager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -233,7 +233,7 @@ namespace Aviask.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,manager")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Visibility,Category,Source,SubCategory,QuestionAnswers,QuestionAnswersId")] Question question, IFormFile? illustrationFile)
         {
             if (id != question.Id)

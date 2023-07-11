@@ -6,7 +6,7 @@
         ViewData["Page"] = 1;
     }
 
-    ViewData["Title"] = $"List of questions [{ViewData["Page"]}]";
+    ViewData["Title"] = $"List of questions ({ViewData["Page"]})";
 
     int resultCount = Model.Count();
     string resultPhrase = resultCount < 2 ? $"{resultCount} result" : $"{resultCount} results   ";
@@ -15,8 +15,13 @@
 <main class="flex flex-col gap-2
              mr-auto ml-auto mt-6">
 
-    <h1 class="text-4xl mb-4 font-normal">List of questions [@ViewData["Page"]] - @resultPhrase</h1>
- 
+    <h1 class="text-4xl mb-4 font-normal">List of questions (@ViewData["Page"]) - @resultPhrase</h1>
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <span class="mb-2 text-lg">As you are not logged in, you can only see <b>free</b> questions.</span>
+    }
+
     <section class="flex flex-col items-end gap-1">
         @if (User.IsInRole("admin") || User.IsInRole("manager"))
         {
@@ -161,7 +166,7 @@
                                 Edit
                             </a>
                         }
-                        @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                        @if (User.IsInRole("admin"))
                         {
                             <a asp-action="Delete" asp-route-id="@item.Id" class="button button-important">
                                 Delete

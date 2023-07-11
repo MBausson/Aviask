@@ -11,7 +11,7 @@
             <a class="text-[#dc3545]" asp-controller="AviaskUsers" asp-action="Index">Users</a> 
         }
         
-        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserName(User)</a>
+        <a asp-controller="Identity" asp-action="Profile">@User.Identity.Name</a>
 
         <form class="form-inline" asp-controller="Identity" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
             <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">
@@ -22,7 +22,7 @@
     }
     else
     {
-        <a class="nav-link text-dark" asp-controller="Identity" asp-action="Register">Register</a>
-        <a class="nav-link text-dark" asp-controller="Identity" asp-action="Login">Login</a>
+        <a  asp-controller="Identity" asp-action="Register">Register</a>
+        <a class="text-blue-500 font-medium" asp-controller="Identity" asp-action="Login">Login</a>
     }
 </div>

@@ -10,6 +10,9 @@ namespace Aviask.Controllers
             if (statusCode == 404)
             {
                 return View("Error404");
+            } else if (statusCode == 403)
+            {
+                return View("Error404");
             }
 
             return RedirectToAction("Index", "Home");

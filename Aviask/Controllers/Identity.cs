@@ -29,9 +29,7 @@ public class Identity : Controller
             return RedirectToRoute("/");
         }
 
-        var user = await _userManager.GetUserAsync(User);
-
-        return View(User.Identity);
+       return RedirectToAction(nameof(Profile));
     }
 
     public async Task<IActionResult> Login()
@@ -54,15 +52,13 @@ public class Identity : Controller
         return View();
     }
 
-    [HttpGet("Identity/Profile/{identifier}")]
+    [HttpGet("Identity/Profile/{identifier?}")]
     public async Task<IActionResult> Profile(string? identifier)
     {
-        IdentityUser? user = null;
-
         //  If not identifier, is given, show the current user's profile if logged in.
         if (identifier == null)
         {
-            if (User == null)
+            if (!User.Identity.IsAuthenticated)
             {
                 return Forbid();
             }
@@ -71,7 +67,7 @@ public class Identity : Controller
         }
 
         //  Else, try to retrieve the account via its ID first, then username if not found.
-        user = await _userRepository.GetByIdAsync(identifier);
+        var user = await _userRepository.GetByIdAsync(identifier);
 
         //  If the get by ID fails, try with username
         if (user == null)
