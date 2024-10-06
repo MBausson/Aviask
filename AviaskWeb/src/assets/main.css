@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.apexcharts-text {
+    @apply dark:fill-neutral-100 hidden sm:inline;
+}
+
+body {
+    font-family: "Geist";
+    font-display: swap;
+}
+
+.text-shade-accent {
+    @apply bg-gradient-to-r from-[#3388ff] to-[#1a6aff] text-transparent bg-clip-text;
+}
+
+.bg-shade-accent {
+    @apply bg-gradient-to-r from-[#3388ff] to-[#0049D3];
+}
+
+.bg-shade-purple {
+    @apply bg-gradient-to-r from-[#c43bff] to-[#811bd9];
+}
+
+span {
+    @apply text-sm sm:text-base;
+}

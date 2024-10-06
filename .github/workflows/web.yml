@@ -1,0 +1,37 @@
+name: Web
+
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [21.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "./AviaskWeb/package-lock.json"
+
+      - name: Setup application
+        run: npm --prefix AviaskWeb ci
+
+      - name: Build application
+        run: npm --prefix AviaskWeb run build
+
+      - name: Linter
+        run: npm --prefix AviaskWeb run lint
+
+      - name: Tests
+        run: npm --prefix AviaskWeb test

@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34003.232
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AviaskApi", "AviaskApi\AviaskApi.csproj", "{0950BFB2-36D0-4B96-BFD5-4A7F7C4330DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AviaskApiTest", "AviaskApiTest\AviaskApiTest.csproj", "{828A2D94-153E-406A-B430-153D4244B0F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{23969631-8890-4361-8AD6-3EE86FEB5467}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0950BFB2-36D0-4B96-BFD5-4A7F7C4330DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0950BFB2-36D0-4B96-BFD5-4A7F7C4330DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0950BFB2-36D0-4B96-BFD5-4A7F7C4330DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0950BFB2-36D0-4B96-BFD5-4A7F7C4330DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{828A2D94-153E-406A-B430-153D4244B0F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{828A2D94-153E-406A-B430-153D4244B0F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{828A2D94-153E-406A-B430-153D4244B0F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{828A2D94-153E-406A-B430-153D4244B0F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34EE60E6-29B7-4D3F-9DD2-52AA3F80ED4C}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  web:
+    container_name: web
+    image: webimg
+    ports:
+      - "5173:5173"
+    build:
+      context: ./AviaskWeb
+      dockerfile: Dockerfile
+
+  api:
+    container_name: api
+    image: apiimg
+    ports:
+      - "8081:8081"
+    build:
+      context: ./AviaskApi
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt # To adapt, this is your ssl certificate folder
+
+  db:
+    container_name: aviaskapi-db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: AviaskApi
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: aviaskapi
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:

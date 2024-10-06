@@ -1,0 +1,20 @@
+{
+    "extends": "@vue/tsconfig/tsconfig.dom.json",
+    "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "node-modules/enable-check.d.ts"],
+    "compilerOptions": {
+        "jsx": "preserve",
+        "jsxImportSource": "vue",
+        "strict": true,
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "isolatedModules": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        },
+        "types": [
+            "node"
+        ]
+    },
+    "target": "ES2017",
+}

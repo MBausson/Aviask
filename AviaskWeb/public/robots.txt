@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /question/
+Disallow: /payments/result
+
+Sitemap: https://aviask.net/sitemap.xml

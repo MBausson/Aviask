@@ -1,0 +1,17 @@
+{
+  "name": "aviask",
+  "version": "1.0.0",
+  "description": "Aviask solution",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm run web\" \"dotnet run --project ./AviaskApi --launch-profile https\"",
+    "web": "cd AviaskWeb && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

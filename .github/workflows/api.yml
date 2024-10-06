@@ -1,0 +1,44 @@
+name: Api
+
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Testing
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore AviaskApi dependencies
+        run: dotnet restore AviaskApi
+
+      - name: Build AviaskApi
+        run: dotnet build --configuration Release AviaskApi --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly
+
+      - name: Start PostgreSQL service
+        run: |
+          sudo service postgresql start
+          sleep 5
+
+      - name: Run tests
+        run: dotnet test --configuration Release AviaskApiTest --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="./TestResults/"
+        env:
+          STRIPE_WEBHOOK_ENDPOINT_ID: ${{ secrets.STRIPE_WEBHOOK_ENDPOINT_ID }}

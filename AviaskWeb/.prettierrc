@@ -1,0 +1,8 @@
+{
+    "printWidth": 120,
+    "htmlWhitespaceSensitivity": "ignore",
+    "tabWidth": 4,
+    "arrowParens": "avoid",
+    "endOfLine": "crlf",
+    "bracketSameLine": true
+}
