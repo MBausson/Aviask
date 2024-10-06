@@ -4,11 +4,11 @@
 
 **⚠️ This project is not used in production, and was primarily developped for education purposes. If you wish to deploy it, please adapt the brand name.**
 
-⚠️ This repository is a snapshot of one of my private repository, with areas for improvements.
+⚠️ This repository is a **snapshot** of one of my private repository, with areas for improvements.
 
 ## Project and features
 
-**Aviask** is an ATPL questions bank website, that focuses on community engagement.
+Aviask is an **ATPL questions bank** website, that focuses on community engagement.
 
 Here is a list of some of the features implemented:
 
@@ -31,12 +31,11 @@ For the backend, I've used ASP.NET Web API. The authentication is made via a JWT
 
 Stripe was used for the subscriptions, but another provider can easily be changed.
 
-
 ## Run the project
 
 First, fill-in your `.env` files according to the `.env.dist` files in the Web & Api directories.
 
-If ran for the first time, the API should automatically run the pending migrations.
+If ran for the first time, the API *should* automatically run the pending migrations.
 
 #### Locally
 
@@ -61,7 +60,7 @@ docker compose up --build
 
 #### Run the tests
 
-This project uses XUnit with the `TestContainers` library to mock a database. For the tests to run, please ensure you have the docker daemon running.
+This project uses `XUnit` with the `TestContainers` library to mock a database. For the tests to run, please ensure you have the **docker daemon** running.
 
 ```bash
 # In ./AviaskApiTest
