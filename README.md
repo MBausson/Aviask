@@ -6,6 +6,10 @@
 
 ⚠️ This repository is a **snapshot** of one of my private repository, with areas for improvements.
 
+## Demo video
+
+[Demo video](https://github.com/MBausson/Aviask/blob/main/image/README/video-demo.mp4)
+
 ## Project and features
 
 Aviask is an **ATPL questions bank** website, that focuses on community engagement.
@@ -35,7 +39,7 @@ Stripe was used for the subscriptions, but another provider can easily be change
 
 First, fill-in your `.env` files according to the `.env.dist` files in the Web & Api directories.
 
-If ran for the first time, the API *should* automatically run the pending migrations.
+If ran for the first time, the API _should_ automatically run the pending migrations.
 
 #### Locally
 
@@ -77,7 +81,7 @@ _Dashboard of a connected user_
 
 ![Dashboard exemple](image/README/dashboard.png)
 
-*Question list*
+_Question list_
 
 ![Question list](image/README/question_list.png)
 
