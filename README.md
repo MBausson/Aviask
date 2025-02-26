@@ -8,7 +8,7 @@
 
 ## Demo video
 
-[Demo video](https://github.com/MBausson/Aviask/raw/refs/heads/add-video-tour/image/README/video-demo.mp4)
+[Demo video](https://github.com/MBausson/Aviask/blob/main/image/README/video-demo.mp4)
 
 ## Project and features
 
